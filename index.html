@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORIGIN SPARKRISE | Together We Grow - Premier Tutor Matchmaking</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+  <!-- Firebase App & Realtime Database SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #080a0f;
+      --card-bg: rgba(18, 22, 34, 0.75);
+      --card-border: rgba(212, 168, 83, 0.2);
+      --card-border-hover: rgba(212, 168, 83, 0.5);
+      --gold-primary: #d4a853;
+      --gold-light: #f3d489;
+      --gold-dark: #a27b2c;
+      --gold-glow: rgba(212, 168, 83, 0.35);
+      --emerald-wa: #25d366;
+      --emerald-dark: #128c7e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --brand-font: 'Cinzel', serif;
+      --body-font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--body-font);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(212, 168, 83, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 60%, rgba(37, 211, 102, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(212, 168, 83, 0.06) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    .bg-grid {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-size: 50px 50px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Top Live Marquee Ticker */
+    .live-ticker-wrap {
+      background: linear-gradient(90deg, rgba(20,24,36,0.9), rgba(15,18,28,0.95));
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.8rem;
+      padding: 0.45rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      z-index: 50;
+    }
+
+    .ticker-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--gold-light);
+      font-weight: 600;
+    }
+
+    .live-pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--emerald-wa);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--emerald-wa);
+      animation: pulseAnim 1.6s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .ticker-scroll {
+      overflow: hidden;
+      white-space: nowrap;
+      flex: 1;
+      margin: 0 1.5rem;
+      color: var(--text-muted);
+    }
+
+    .ticker-text {
+      display: inline-block;
+      animation: marquee 26s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .ticker-query-btn {
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.35);
+      color: #6ee7b7;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .ticker-query-btn:hover {
+      background: var(--emerald-wa);
+      color: #042f1d;
+    }
+
+    /* Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(8, 10, 15, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 82px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
+
+    .brand-logo-frame {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #2a2012 0%, #0d0e14 100%);
+      border: 1.5px solid var(--gold-primary);
+      box-shadow: 0 0 18px rgba(212, 168, 83, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+      transition: transform 0.3s;
+    }
+
+    .brand-wrap:hover .brand-logo-frame {
+      transform: rotate(15deg) scale(1.05);
+    }
+
+    .brand-logo-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .brand-text h2 {
+      font-family: var(--brand-font);
+      font-size: 1.25rem;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 60%, var(--gold-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.2;
+    }
+
+    .brand-meta {
+      font-size: 0.725rem;
+      color: var(--gold-primary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-badge {
+      background: rgba(212, 168, 83, 0.12);
+      border: 1px solid rgba(212, 168, 83, 0.3);
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      color: var(--gold-light);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-gold-outline {
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 168, 83, 0.08);
+      padding: 0.6rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.25s;
+    }
+
+    .btn-gold-outline:hover {
+      background: var(--gold-primary);
+      color: #0b0c10;
+      box-shadow: 0 0 15px var(--gold-glow);
+    }
+
+    .btn-wa-header {
+      background: linear-gradient(135deg, var(--emerald-wa), #1ebb5c);
+      color: #022c19;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+      transition: all 0.25s;
+    }
+
+    .btn-wa-header:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+      color: #000;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-pretitle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.4rem 1.1rem;
+      border-radius: 999px;
+      background: rgba(212, 168, 83, 0.1);
+      border: 1px solid rgba(212, 168, 83, 0.3);
+      color: var(--gold-light);
+      font-size: 0.825rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.18;
+      max-width: 960px;
+      margin: 0 auto 1.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 span.gradient-gold {
+      background: linear-gradient(135deg, #ffffff 10%, var(--gold-light) 50%, var(--gold-primary) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.18rem);
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 2.2rem;
+      font-weight: 400;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .btn-hero-parent {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      color: #0a0c12;
+      padding: 0.95rem 1.8rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      box-shadow: 0 6px 20px rgba(212, 168, 83, 0.35);
+      transition: all 0.25s;
+    }
+
+    .btn-hero-parent:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(212, 168, 83, 0.5);
+    }
+
+    .btn-hero-teacher {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+      padding: 0.95rem 1.8rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      backdrop-filter: blur(8px);
+      transition: all 0.25s;
+    }
+
+    .btn-hero-teacher:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .btn-hero-query {
+      background: rgba(37, 211, 102, 0.12);
+      border: 1px solid rgba(37, 211, 102, 0.4);
+      color: #4ade80;
+      padding: 0.95rem 1.6rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: all 0.25s;
+    }
+
+    .btn-hero-query:hover {
+      background: var(--emerald-wa);
+      color: #042f1d;
+    }
+
+    /* Trust Stats Strip */
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 4rem;
+    }
+
+    .stat-pill {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      text-align: left;
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .stat-pill:hover {
+      transform: translateY(-3px);
+      border-color: var(--card-border);
+    }
+
+    .stat-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(212, 168, 83, 0.1);
+      border: 1px solid rgba(212, 168, 83, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .stat-pill h4 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .stat-pill p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Dual Application Workspace */
+    .engine-section {
+      padding: 3rem 0 5rem;
+    }
+
+    .section-head {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 3rem;
+    }
+
+    .section-tag {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-primary);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .section-head h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-head p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .dual-pane-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .dual-pane-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.2rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .tab-header {
+      display: flex;
+      background: rgba(8, 10, 15, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.35rem;
+      margin-bottom: 2rem;
+    }
+
+    .portal-tab {
+      flex: 1;
+      padding: 0.85rem 1rem;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      transition: all 0.25s ease;
+    }
+
+    .portal-tab.active {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+      color: #090b10;
+      box-shadow: 0 4px 15px rgba(212, 168, 83, 0.25);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-full {
+      grid-column: 1 / -1;
+    }
+
+    .field-label {
+      font-size: 0.825rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 0.45rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .field-input, .field-select, .field-textarea {
+      width: 100%;
+      background: rgba(10, 13, 20, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.78rem 1rem;
+      color: #fff;
+      font-size: 0.92rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .field-input:focus, .field-select:focus, .field-textarea:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.15);
+      background: rgba(15, 19, 30, 0.95);
+    }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 75px;
+    }
+
+    .btn-register-submit {
+      width: 100%;
+      margin-top: 1.25rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--emerald-wa), #1eaa59);
+      color: #032b17;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.28);
+      transition: all 0.25s;
+    }
+
+    .btn-register-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(37, 211, 102, 0.45);
+      color: #000;
+    }
+
+    .firebase-sync-status {
+      margin-top: 0.9rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+    }
+
+    .firebase-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3b82f6;
+    }
+
+    /* Simulator */
+    .simulator-card {
+      background: #000;
+      border: 3px solid #222938;
+      border-radius: 36px;
+      padding: 0.9rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 168, 83, 0.15);
+      position: sticky;
+      top: 100px;
+    }
+
+    .phone-notch {
+      width: 120px;
+      height: 18px;
+      background: #181d28;
+      border-radius: 0 0 12px 12px;
+      margin: 0 auto 0.75rem;
+    }
+
+    .sim-wa-header {
+      background: #0f1722;
+      border-radius: 16px 16px 0 0;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .sim-wa-contact {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .sim-wa-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #1e2638;
+      border: 1px solid var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 1rem;
+      padding: 4px;
+    }
+
+    .sim-wa-title h5 {
+      font-size: 0.85rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .sim-wa-title span {
+      font-size: 0.7rem;
+      color: var(--emerald-wa);
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .sim-wa-body {
+      background: #090e17;
+      background-image: radial-gradient(#1a2333 1px, transparent 1px);
+      background-size: 16px 16px;
+      height: 350px;
+      padding: 1rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .wa-bubble {
+      background: #005c4b;
+      color: #e9edef;
+      border-radius: 12px 12px 2px 12px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.825rem;
+      line-height: 1.45;
+      max-width: 95%;
+      margin-left: auto;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .wa-bubble-time {
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: right;
+      margin-top: 0.35rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.3rem;
+    }
+
+    .sim-wa-footer {
+      background: #0f1722;
+      border-radius: 0 0 16px 16px;
+      padding: 0.7rem 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sim-wa-input {
+      flex: 1;
+      background: #1e2636;
+      border-radius: 20px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    /* Live Updates Ticker Section */
+    .live-registrations-box {
+      margin-top: 1.5rem;
+      background: rgba(15, 20, 32, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+    }
+
+    .live-reg-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .live-reg-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .live-feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    .live-feed-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--gold-primary);
+    }
+
+    .live-feed-name {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .live-feed-sub {
+      color: var(--text-muted);
+      font-size: 0.72rem;
+    }
+
+    .live-feed-time {
+      color: var(--text-dim);
+      font-size: 0.7rem;
+    }
+
+    /* Why Choose Us Grid */
+    .why-section {
+      padding: 4rem 0 5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .quality-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .q-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 2rem;
+      backdrop-filter: blur(14px);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .q-card:hover {
+      border-color: var(--card-border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    .q-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(212, 168, 83, 0.12);
+      border: 1px solid rgba(212, 168, 83, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-light);
+      font-size: 1.35rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .q-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+
+    .q-card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .q-badge {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      background: rgba(212, 168, 83, 0.1);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+
+    /* How It Works Dual Timeline */
+    .how-section {
+      padding: 4rem 0 5rem;
+      background: rgba(12, 15, 24, 0.4);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .dual-process-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 800px) {
+      .dual-process-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .process-column {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.2rem;
+    }
+
+    .process-col-head {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .process-col-head h3 {
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1.1rem;
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(212, 168, 83, 0.15);
+      border: 1.5px solid var(--gold-primary);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .step-item h4 {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .step-item p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Board Coverage Badges */
+    .boards-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    .board-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      padding: 0.6rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .board-pill:hover {
+      border-color: var(--gold-primary);
+      color: var(--gold-light);
+      background: rgba(212, 168, 83, 0.08);
+    }
+
+    /* Ask Query Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #0f1420;
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      padding: 2rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 25px var(--gold-glow);
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .modal-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Floating WhatsApp Button */
+    .floating-wa-btn {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      padding: 0.85rem 1.35rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      z-index: 90;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .floating-wa-btn:hover {
+      transform: scale(1.06) translateY(-3px);
+      box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 4rem 0 2rem;
+      background: #05070a;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .footer-tagline {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      max-width: 380px;
+    }
+
+    .footer-links-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .footer-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .footer-list a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+
+    .footer-list a:hover {
+      color: var(--gold-light);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 2rem;
+      text-align: center;
+      font-size: 0.825rem;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <!-- Real-Time Top Ticker -->
+  <div class="live-ticker-wrap">
+    <div class="ticker-left">
+      <span class="live-pulse-dot"></span>
+      <span>ESTD 2024 &bull; LIVE CONNECT</span>
+    </div>
+    <div class="ticker-scroll">
+      <div class="ticker-text" id="liveTickerText">
+        Welcome to ORIGIN SPARKRISE &bull; Official Founder: Oindri &bull; Instant WhatsApp Matchmaking active on +91 85848 02445 &bull; Real-time Firebase Sync Online &bull; 1st Demo Session Arranged Within 24-48 Hours!
+      </div>
+    </div>
+    <a href="javascript:void(0)" onclick="openQueryModal()" class="ticker-query-btn">
+      <i class="fab fa-whatsapp"></i> Ask a Query
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="container nav-inner">
+      <a href="#" class="brand-wrap">
+        <div class="brand-logo-frame">
+          <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" stroke="#d4a853" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <circle cx="50" cy="50" r="41" stroke="#f3d489" stroke-width="0.8"/>
+            <g transform="translate(50,50)">
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#d4a853" opacity="0.85"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#f3d489" opacity="0.85" transform="rotate(30)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#d4a853" opacity="0.85" transform="rotate(60)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#f3d489" opacity="0.85" transform="rotate(90)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#d4a853" opacity="0.85" transform="rotate(120)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#f3d489" opacity="0.85" transform="rotate(150)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#d4a853" opacity="0.85" transform="rotate(180)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#f3d489" opacity="0.85" transform="rotate(210)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#d4a853" opacity="0.85" transform="rotate(240)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#f3d489" opacity="0.85" transform="rotate(270)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#d4a853" opacity="0.85" transform="rotate(300)"/>
+              <path d="M0 -38 C7 -24, 7 -14, 0 -8 C-7 -14, -7 -24, 0 -38 Z" fill="#f3d489" opacity="0.85" transform="rotate(330)"/>
+              <circle cx="0" cy="0" r="10" fill="#0b0e14" stroke="#d4a853" stroke-width="1.5"/>
+              <circle cx="0" cy="0" r="4.5" fill="#f3d489"/>
+            </g>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h2>ORIGIN SPARKRISE</h2>
+          <div class="brand-meta">
+            <span>TOGETHER WE GROW</span>
+            <span class="brand-badge">ESTD 2024</span>
+          </div>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="#why-choose" class="btn-gold-outline"><i class="fas fa-gem"></i> Why Us</a>
+        <a href="javascript:void(0)" onclick="openQueryModal()" class="btn-gold-outline"><i class="far fa-question-circle"></i> Ask Query</a>
+        <a href="https://wa.me/918584802445?text=Hello%20Oindri%2C%20I%20have%20an%20inquiry%20regarding%20Origin%20Sparkrise." target="_blank" class="btn-wa-header">
+          <i class="fab fa-whatsapp"></i> +91 85848 02445
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-pretitle">
+        <i class="fas fa-crown"></i> Founded by Oindri &bull; West Bengal & Online Nationwide
+      </div>
+      <h1>
+        Where Dedicated Parents Meet <br/>
+        <span class="gradient-gold">Elite Verified Tutors.</span>
+      </h1>
+      <p class="hero-desc">
+        Connecting learners to top subject mentors and empowering qualified educators with rewarding home & online tuitions. No exploitative agent cuts &bull; Direct WhatsApp convenience.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#register" onclick="switchRole('parent')" class="btn-hero-parent">
+          <i class="fas fa-user-graduate"></i> Find a Verified Tutor
+        </a>
+        <a href="#register" onclick="switchRole('teacher')" class="btn-hero-teacher">
+          <i class="fas fa-chalkboard-teacher"></i> Apply to Teach (Educators)
+        </a>
+        <button onclick="openQueryModal()" class="btn-hero-query">
+          <i class="fab fa-whatsapp"></i> Have Questions? Ask via WhatsApp
+        </button>
+      </div>
+
+      <!-- Trust Strip Badges -->
+      <div class="trust-strip">
+        <div class="stat-pill">
+          <div class="stat-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div>
+            <h4>100% Verified</h4>
+            <p>Identity, Degree & Academics screened</p>
+          </div>
+        </div>
+
+        <div class="stat-pill">
+          <div class="stat-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div>
+            <h4>1st Free Demo</h4>
+            <p>Evaluate teaching style before you decide</p>
+          </div>
+        </div>
+
+        <div class="stat-pill">
+          <div class="stat-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 6v6l4 2"/>
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <div>
+            <h4>24 - 48 Hours</h4>
+            <p>Rapid tutor shortlisting on WhatsApp</p>
+          </div>
+        </div>
+
+        <div class="stat-pill">
+          <div class="stat-icon-wrap">
+            <i class="fas fa-hand-holding-heart"></i>
+          </div>
+          <div>
+            <h4>Fair & Dignified</h4>
+            <p>Respectful conditions for every teacher</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dual Workspace Engine -->
+  <section class="engine-section" id="register">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Direct Matchmaking Portal</span>
+        <h2>Choose Your Pathway</h2>
+        <p>Your details sync automatically with Firebase and format an encrypted instant dispatch to Founder Oindri on WhatsApp.</p>
+      </div>
+
+      <div class="dual-pane-grid">
+        <!-- Form Pane -->
+        <div class="form-card">
+          <div class="tab-header">
+            <button class="portal-tab active" id="tabParent" onclick="switchRole('parent')">
+              <i class="fas fa-graduation-cap"></i> I am a Parent / Student
+            </button>
+            <button class="portal-tab" id="tabTeacher" onclick="switchRole('teacher')">
+              <i class="fas fa-book-reader"></i> I am a Teacher / Tutor
+            </button>
+          </div>
+
+          <!-- Parent Registration Form -->
+          <form id="formParent" onsubmit="submitParentApplication(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-user"></i> Parent / Guardian Name</label>
+                <input type="text" id="p_name" class="field-input" placeholder="e.g. Sourav Mukherjee" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-phone-alt"></i> WhatsApp Contact No.</label>
+                <input type="tel" id="p_phone" class="field-input" placeholder="e.g. 9876543210" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-layer-group"></i> Class / Grade</label>
+                <input type="text" id="p_class" class="field-input" placeholder="e.g. Class 10, Class 12, NEET" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-university"></i> Board / Syllabus</label>
+                <select id="p_board" class="field-select" onchange="updateSimPreview()">
+                  <option value="CBSE">CBSE Board</option>
+                  <option value="ICSE / ISC">ICSE / ISC</option>
+                  <option value="West Bengal Board (WBBSE/WBCHSE)">West Bengal Board</option>
+                  <option value="Cambridge / IGCSE / IB">Cambridge / IB</option>
+                  <option value="College / University">University / College</option>
+                  <option value="Competitive (NEET/JEE)">Competitive (NEET / JEE)</option>
+                </select>
+              </div>
+              <div class="form-full">
+                <label class="field-label"><i class="fas fa-book"></i> Subject(s) Needed</label>
+                <input type="text" id="p_subjects" class="field-input" placeholder="e.g. Pure Mathematics, Physics, Chemistry" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-chalkboard"></i> Preferred Mode</label>
+                <select id="p_mode" class="field-select" onchange="updateSimPreview()">
+                  <option value="Home Tuition (Teacher visits home)">Home Tuition (Offline)</option>
+                  <option value="Online 1-on-1 Interactive">Online 1-on-1</option>
+                  <option value="Flexible (Either Home or Online)">Flexible (Either)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-map-marker-alt"></i> Location / Landmark</label>
+                <input type="text" id="p_loc" class="field-input" placeholder="e.g. Kanchrapara, Kalyani, Kolkata" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-full">
+                <label class="field-label"><i class="far fa-comment-dots"></i> Special Requirement / Frequency</label>
+                <input type="text" id="p_notes" class="field-input" placeholder="e.g. 3 days/week, female tutor preferred" oninput="updateSimPreview()" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-register-submit">
+              <i class="fab fa-whatsapp"></i> Confirm & Open in WhatsApp
+            </button>
+            <div class="firebase-sync-status">
+              <span class="firebase-status-dot"></span>
+              Auto-syncs application securely to Origin Sparkrise Realtime Database
+            </div>
+          </form>
+
+          <!-- Teacher Registration Form -->
+          <form id="formTeacher" style="display: none;" onsubmit="submitTeacherApplication(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-user-tie"></i> Teacher's Full Name</label>
+                <input type="text" id="t_name" class="field-input" placeholder="e.g. Priyanka Sen" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-phone-alt"></i> WhatsApp Contact No.</label>
+                <input type="tel" id="t_phone" class="field-input" placeholder="e.g. 9830112233" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-award"></i> Highest Qualification</label>
+                <input type="text" id="t_qual" class="field-input" placeholder="e.g. M.Sc Mathematics, B.Tech CSE" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-history"></i> Teaching Experience</label>
+                <select id="t_exp" class="field-select" onchange="updateSimPreview()">
+                  <option value="1 - 3 Years">1 - 3 Years</option>
+                  <option value="3 - 6 Years">3 - 6 Years</option>
+                  <option value="6+ Years (Senior Faculty)">6+ Years (Senior Faculty)</option>
+                  <option value="Fresher / Passionate Graduate">Fresher / Passionate Graduate</option>
+                </select>
+              </div>
+              <div class="form-full">
+                <label class="field-label"><i class="fas fa-pencil-alt"></i> Subjects & Classes You Offer</label>
+                <input type="text" id="t_subjects" class="field-input" placeholder="e.g. Science & Maths (Class 8-10), Biology (Class 11-12)" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-laptop-house"></i> Teaching Preference</label>
+                <select id="t_mode" class="field-select" onchange="updateSimPreview()">
+                  <option value="Both Offline Home Tuition & Online">Both Home & Online</option>
+                  <option value="Offline Home Tuition Only">Offline Home Visit Only</option>
+                  <option value="Online 1-on-1 Classes Only">Online 1-on-1 Only</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="field-label"><i class="fas fa-map-pin"></i> Preferred Localities</label>
+                <input type="text" id="t_loc" class="field-input" placeholder="e.g. Barrackpore, Naihati, Sealdah line" required oninput="updateSimPreview()" />
+              </div>
+              <div class="form-full">
+                <label class="field-label"><i class="fas fa-id-card"></i> College / Current Profession</label>
+                <input type="text" id="t_college" class="field-input" placeholder="e.g. Jadavpur University / Full-Time Educator" oninput="updateSimPreview()" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-register-submit">
+              <i class="fab fa-whatsapp"></i> Apply to Join Faculty via WhatsApp
+            </button>
+            <div class="firebase-sync-status">
+              <span class="firebase-status-dot"></span>
+              Auto-syncs application securely to Origin Sparkrise Realtime Database
+            </div>
+          </form>
+        </div>
+
+        <!-- Right Side: Real-Time WhatsApp Simulator + Live Updates Feed -->
+        <div>
+          <div class="simulator-card">
+            <div class="phone-notch"></div>
+            
+            <div class="sim-wa-header">
+              <div class="sim-wa-contact">
+                <div class="sim-wa-avatar">
+                  <i class="fas fa-circle-notch"></i>
+                </div>
+                <div class="sim-wa-title">
+                  <h5>Oindri (Origin Sparkrise)</h5>
+                  <span><i class="fas fa-circle" style="font-size: 6px;"></i> Official Tutor Desk &bull; Online</span>
+                </div>
+              </div>
+              <div style="color: var(--gold-light); font-size: 0.8rem;">
+                <i class="fas fa-shield-alt"></i> Verified
+              </div>
+            </div>
+
+            <div class="sim-wa-body">
+              <div class="wa-bubble" id="simBubbleMessage">
+                <div style="font-weight: 700; color: #f3d489; margin-bottom: 4px;">
+                  🌟 ORIGIN SPARKRISE REGISTRATION
+                </div>
+                Start filling out the application form on the left to watch your formatted WhatsApp dispatch generate live...
+                <div class="wa-bubble-time">
+                  <span>Just now</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="sim-wa-footer">
+              <div class="sim-wa-input">
+                <i class="far fa-smile" style="margin-right: 6px;"></i> Pre-formatted message ready...
+              </div>
+              <div style="color: var(--emerald-wa); font-size: 1.1rem; margin-left: 4px;">
+                <i class="fas fa-paper-plane"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Firebase Community Feed -->
+          <div class="live-registrations-box">
+            <div class="live-reg-head">
+              <div class="live-reg-title">
+                <span class="live-pulse-dot"></span> Recent Inquiries & Matches
+              </div>
+              <span style="font-size: 0.7rem; color: var(--text-dim);">Firebase Connected</span>
+            </div>
+            <div class="live-feed-list" id="liveFeedContainer">
+              <div class="live-feed-item">
+                <div>
+                  <div class="live-feed-name">Parent Inquiry: Class 10 CBSE Math</div>
+                  <div class="live-feed-sub">North 24 Parganas &bull; Mode: Home Visit</div>
+                </div>
+                <div class="live-feed-time">10m ago</div>
+              </div>
+              <div class="live-feed-item">
+                <div>
+                  <div class="live-feed-name">Teacher Onboarding: M.Sc Physics</div>
+                  <div class="live-feed-sub">Kolkata &bull; ICSE/ISC Faculty</div>
+                </div>
+                <div class="live-feed-time">32m ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us Section -->
+  <section class="why-section" id="why-choose">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Quality & Ethics</span>
+        <h2>Why Parents & Teachers Choose Us</h2>
+        <p>Built to end the chaos of unverified local classifieds and predatory middleman commissions.</p>
+      </div>
+
+      <div class="quality-cards-grid">
+        <div class="q-card">
+          <div class="q-card-icon"><i class="fas fa-user-check"></i></div>
+          <h3>Elite Verified Faculty</h3>
+          <p>We screen university credentials, academic percentiles, and subject clarity through a structured viva before approving any tutor.</p>
+          <span class="q-badge">Strict Pedagogy Check</span>
+        </div>
+
+        <div class="q-card">
+          <div class="q-card-icon"><i class="fas fa-calendar-check"></i></div>
+          <h3>Free 1-on-1 Trial Demo</h3>
+          <p>Student-teacher compatibility is paramount. Experience a complimentary 45-minute live trial session before finalizing monthly terms.</p>
+          <span class="q-badge">Zero Risk For Parents</span>
+        </div>
+
+        <div class="q-card">
+          <div class="q-card-icon"><i class="fas fa-map-marked-alt"></i></div>
+          <h3>Hyperlocal Distance Matching</h3>
+          <p>Tutors are mapped within convenient traveling distance to minimize late arrivals and guarantee long-term exam consistency.</p>
+          <span class="q-badge">Punctual & Regular</span>
+        </div>
+
+        <div class="q-card">
+          <div class="q-card-icon"><i class="fas fa-handshake"></i></div>
+          <h3>Dignity & Fair Pay for Tutors</h3>
+          <p>No predatory 50% commission cuts that demoralize educators. We believe valued teachers nurture top-performing students.</p>
+          <span class="q-badge">Teacher-First Ethics</span>
+        </div>
+
+        <div class="q-card">
+          <div class="q-card-icon"><i class="fas fa-sync-alt"></i></div>
+          <h3>Swift Replacement Assurance</h3>
+          <p>If a teacher relocates or schedules clash, our academic coordinator provides an immediate replacement tutor at zero added expense.</p>
+          <span class="q-badge">Continuous Learning</span>
+        </div>
+
+        <div class="q-card">
+          <div class="q-card-icon"><i class="fab fa-whatsapp"></i></div>
+          <h3>Direct WhatsApp Coordination</h3>
+          <p>Skip robotic ticket support. Direct one-on-one communication with Founder Oindri for prompt resolutions and personalized guidance.</p>
+          <span class="q-badge">+91 85848 02445</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">Smooth Process</span>
+        <h2>How Origin Sparkrise Connects You</h2>
+        <p>Simple 3-step structured match with zero hidden complexities.</p>
+      </div>
+
+      <div class="dual-process-grid">
+        <!-- Parent Steps -->
+        <div class="process-column">
+          <div class="process-col-head">
+            <i class="fas fa-user-graduate" style="color: var(--gold-primary); font-size: 1.5rem;"></i>
+            <h3>For Parents & Students</h3>
+          </div>
+          <div class="process-steps">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div>
+                <h4>Submit Requirement</h4>
+                <p>Fill out the form with your child's grade, board, subject requirements, and home locality.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div>
+                <h4>Review Verified Tutor Profiles</h4>
+                <p>Within 24–48 hours, receive shortlisted educator profiles with qualifications and background details.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div>
+                <h4>Free Demo Class & Finalize</h4>
+                <p>Attend a complimentary trial class. Continue regular classes only if completely satisfied.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher Steps -->
+        <div class="process-column">
+          <div class="process-col-head">
+            <i class="fas fa-chalkboard-teacher" style="color: var(--gold-primary); font-size: 1.5rem;"></i>
+            <h3>For Passionate Educators</h3>
+          </div>
+          <div class="process-steps">
+            <div class="step-item">
+              <div class="step-num">1</div>
+              <div>
+                <h4>Register Your Credentials</h4>
+                <p>Share your academic degrees, expertise subjects, and preferred tutoring zones via WhatsApp.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">2</div>
+              <div>
+                <h4>Verification & Placement</h4>
+                <p>Once verified, receive genuine tuition student leads matched precisely to your schedule and terms.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-num">3</div>
+              <div>
+                <h4>Conduct Demo & Start Earning</h4>
+                <p>Deliver your demonstration lecture, confirm routine class timings, and earn with professional dignity.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Boards Covered -->
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <span style="font-size: 0.85rem; color: var(--gold-light); text-transform: uppercase; font-weight: 700; letter-spacing: 0.1em;">
+          Comprehensive Curriculums Supported
+        </span>
+        <div class="boards-wrap">
+          <div class="board-pill"><i class="fas fa-certificate"></i> CBSE (Class 1 to 12)</div>
+          <div class="board-pill"><i class="fas fa-certificate"></i> ICSE & ISC Council</div>
+          <div class="board-pill"><i class="fas fa-certificate"></i> West Bengal Madhyamik & HS</div>
+          <div class="board-pill"><i class="fas fa-certificate"></i> Cambridge IGCSE & IB Board</div>
+          <div class="board-pill"><i class="fas fa-certificate"></i> NEET / JEE Foundation</div>
+          <div class="board-pill"><i class="fas fa-certificate"></i> Spoken English & Coding</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ask Query WhatsApp Modal -->
+  <div class="modal-overlay" id="queryModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeQueryModal()">&times;</button>
+      <div class="modal-title">
+        <i class="fab fa-whatsapp" style="color: var(--emerald-wa);"></i> Ask a Query via WhatsApp
+      </div>
+      <p class="modal-subtitle">
+        Have questions about fees, tutor availability, or our trial policy? Founder Oindri will respond promptly.
+      </p>
+
+      <form onsubmit="handleQuerySubmit(event)">
+        <div class="form-group" style="margin-bottom: 0.9rem;">
+          <label class="field-label">Your Name</label>
+          <input type="text" id="q_name" class="field-input" placeholder="e.g. Anirban Roy" required />
+        </div>
+        <div class="form-group" style="margin-bottom: 0.9rem;">
+          <label class="field-label">I am a</label>
+          <select id="q_type" class="field-select">
+            <option value="Parent looking for guidance">Parent / Student</option>
+            <option value="Teacher inquiring about joining">Educator / Tutor</option>
+            <option value="General Query">General Visitor</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="field-label">Your Question / Doubt</label>
+          <textarea id="q_message" class="field-textarea" placeholder="Type your inquiry here..." required></textarea>
+        </div>
+        <button type="submit" class="btn-register-submit" style="margin: 0;">
+          <i class="fab fa-whatsapp"></i> Send Query to +91 85848 02445
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp Quick Button -->
+  <a href="https://wa.me/918584802445?text=Hello%20Oindri%2C%20I%20would%20like%20to%20know%20more%20about%20ORIGIN%20SPARKRISE." target="_blank" class="floating-wa-btn">
+    <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i>
+    <span>WhatsApp Oindri</span>
+  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-wrap">
+            <div class="brand-logo-frame" style="width: 44px; height: 44px;">
+              <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none">
+                <circle cx="50" cy="50" r="44" stroke="#d4a853" stroke-width="1.5"/>
+                <g transform="translate(50,50)">
+                  <circle cx="0" cy="0" r="10" fill="#d4a853"/>
+                </g>
+              </svg>
+            </div>
+            <div class="brand-text">
+              <h2 style="font-size: 1.15rem;">ORIGIN SPARKRISE</h2>
+              <div class="brand-meta" style="font-size: 0.7rem;">TOGETHER WE GROW</div>
+            </div>
+          </div>
+          <p class="footer-tagline">
+            Dedicated academic matchmaking platform connecting discerning parents with passionate, background-verified tutors. Founded by Oindri with ethical, transparent standards.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-links-title">Quick Actions</h4>
+          <ul class="footer-list">
+            <li><a href="#register" onclick="switchRole('parent')">Hire a Tutor</a></li>
+            <li><a href="#register" onclick="switchRole('teacher')">Join as Teacher</a></li>
+            <li><a href="#why-choose">Our Quality Vetting</a></li>
+            <li><a href="javascript:void(0)" onclick="openQueryModal()">Submit a Question</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-links-title">Verified Contact</h4>
+          <ul class="footer-list">
+            <li><span style="color: #fff;"><i class="fas fa-user-shield" style="color: var(--gold-primary);"></i> Founder: Oindri</span></li>
+            <li><span style="color: #fff;"><i class="fab fa-whatsapp" style="color: var(--emerald-wa);"></i> +91 85848 02445</span></li>
+            <li><span style="color: #fff;"><i class="fas fa-calendar-alt" style="color: var(--gold-light);"></i> ESTD 2024</span></li>
+            <li><span style="color: var(--text-muted);"><i class="fas fa-map-marker-alt"></i> West Bengal & Pan-India Online</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2024-2026 ORIGIN SPARKRISE &bull; All Rights Reserved.</div>
+        <div>Motto: <em>Together We Grow</em></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const OFFICIAL_PHONE = "918584802445";
+
+    // ==========================================
+    // OFFICIAL FIREBASE CONFIGURATION (INTEGRATED)
+    // ==========================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyChY8s7RhwBy-xJpIM2A3ZMioPsHeMtZcI",
+      authDomain: "origin-sparkrise.firebaseapp.com",
+      databaseURL: "https://origin-sparkrise-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "origin-sparkrise",
+      storageBucket: "origin-sparkrise.firebasestorage.app",
+      messagingSenderId: "323155123131",
+      appId: "1:323155123131:web:e7d04ee66baf8f166e829e"
+    };
+
+    let isFirebaseReady = false;
+    let database = null;
+
+    try {
+      firebase.initializeApp(firebaseConfig);
+      database = firebase.database();
+      isFirebaseReady = true;
+      listenToFirebaseLiveFeed();
+    } catch (err) {
+      console.warn("Firebase initialization notice:", err);
+    }
+
+    // Role Switcher
+    let currentRole = 'parent';
+
+    function switchRole(role) {
+      currentRole = role;
+      const tabP = document.getElementById('tabParent');
+      const tabT = document.getElementById('tabTeacher');
+      const formP = document.getElementById('formParent');
+      const formT = document.getElementById('formTeacher');
+
+      if (role === 'parent') {
+        tabP.classList.add('active');
+        tabT.classList.remove('active');
+        formP.style.display = 'block';
+        formT.style.display = 'none';
+      } else {
+        tabT.classList.add('active');
+        tabP.classList.remove('active');
+        formT.style.display = 'block';
+        formP.style.display = 'none';
+      }
+      updateSimPreview();
+    }
+
+    // Dynamic Live Preview in Simulator
+    function updateSimPreview() {
+      const bubble = document.getElementById('simBubbleMessage');
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      if (currentRole === 'parent') {
+        const name = document.getElementById('p_name').value.trim() || '[Parent Name]';
+        const phone = document.getElementById('p_phone').value.trim() || '[Phone]';
+        const cls = document.getElementById('p_class').value.trim() || '[Class]';
+        const board = document.getElementById('p_board').value;
+        const subj = document.getElementById('p_subjects').value.trim() || '[Subjects]';
+        const mode = document.getElementById('p_mode').value;
+        const loc = document.getElementById('p_loc').value.trim() || '[Locality]';
+        const notes = document.getElementById('p_notes').value.trim() || 'None';
+
+        bubble.innerHTML = `
+          <div style="font-weight: 700; color: #f3d489; margin-bottom: 5px;">
+            🌟 NEW TUTOR REQUEST — ORIGIN SPARKRISE
+          </div>
+          • <b>Parent:</b> ${name}<br/>
+          • <b>Contact:</b> ${phone}<br/>
+          • <b>Class & Board:</b> ${cls} (${board})<br/>
+          • <b>Subject(s):</b> ${subj}<br/>
+          • <b>Mode:</b> ${mode}<br/>
+          • <b>Location:</b> ${loc}<br/>
+          • <b>Notes:</b> ${notes}<br/><br/>
+          <i>Please connect me with suitable verified educators.</i>
+          <div class="wa-bubble-time">
+            <span>${now}</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
+          </div>
+        `;
+      } else {
+        const name = document.getElementById('t_name').value.trim() || '[Teacher Name]';
+        const phone = document.getElementById('t_phone').value.trim() || '[Phone]';
+        const qual = document.getElementById('t_qual').value.trim() || '[Degree/Qual]';
+        const exp = document.getElementById('t_exp').value;
+        const subj = document.getElementById('t_subjects').value.trim() || '[Subjects/Classes]';
+        const mode = document.getElementById('t_mode').value;
+        const loc = document.getElementById('t_loc').value.trim() || '[Locations]';
+        const college = document.getElementById('t_college').value.trim() || 'Not specified';
+
+        bubble.innerHTML = `
+          <div style="font-weight: 700; color: #f3d489; margin-bottom: 5px;">
+            🌟 FACULTY APPLICATION — ORIGIN SPARKRISE
+          </div>
+          • <b>Teacher:</b> ${name}<br/>
+          • <b>Contact:</b> ${phone}<br/>
+          • <b>Qualification:</b> ${qual}<br/>
+          • <b>Experience:</b> ${exp}<br/>
+          • <b>Teaches:</b> ${subj}<br/>
+          • <b>Preference:</b> ${mode}<br/>
+          • <b>Preferred Area:</b> ${loc}<br/>
+          • <b>Background:</b> ${college}<br/><br/>
+          <i>I would like to register with Origin Sparkrise faculty.</i>
+          <div class="wa-bubble-time">
+            <span>${now}</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
+          </div>
+        `;
+      }
+    }
+
+    // Submit Parent Form
+    function submitParentApplication(e) {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('p_name').value.trim(),
+        phone: document.getElementById('p_phone').value.trim(),
+        classGrade: document.getElementById('p_class').value.trim(),
+        board: document.getElementById('p_board').value,
+        subjects: document.getElementById('p_subjects').value.trim(),
+        mode: document.getElementById('p_mode').value,
+        location: document.getElementById('p_loc').value.trim(),
+        notes: document.getElementById('p_notes').value.trim() || 'None',
+        timestamp: new Date().toISOString(),
+        role: 'parent'
+      };
+
+      if (isFirebaseReady && database) {
+        database.ref('registrations/parents').push(payload);
+      }
+      appendLocalFeedItem(`Parent: ${payload.name} (${payload.classGrade})`, `${payload.location} • ${payload.subjects}`);
+
+      const message = 
+        `*🌟 NEW TUTOR REQUIREMENT — ORIGIN SPARKRISE*\n` +
+        `_Together We Grow | Founder: Oindri_\n\n` +
+        `• *Parent Name:* ${payload.name}\n` +
+        `• *WhatsApp:* ${payload.phone}\n` +
+        `• *Class & Board:* ${payload.classGrade} (${payload.board})\n` +
+        `• *Subjects Needed:* ${payload.subjects}\n` +
+        `• *Mode Preferred:* ${payload.mode}\n` +
+        `• *Location:* ${payload.location}\n` +
+        `• *Special Notes:* ${payload.notes}\n\n` +
+        `_Please arrange a verified tutor and free demo session._`;
+
+      window.open(`https://wa.me/${OFFICIAL_PHONE}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    // Submit Teacher Form
+    function submitTeacherApplication(e) {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('t_name').value.trim(),
+        phone: document.getElementById('t_phone').value.trim(),
+        qualification: document.getElementById('t_qual').value.trim(),
+        experience: document.getElementById('t_exp').value,
+        subjects: document.getElementById('t_subjects').value.trim(),
+        mode: document.getElementById('t_mode').value,
+        location: document.getElementById('t_loc').value.trim(),
+        background: document.getElementById('t_college').value.trim() || 'Not specified',
+        timestamp: new Date().toISOString(),
+        role: 'teacher'
+      };
+
+      if (isFirebaseReady && database) {
+        database.ref('registrations/teachers').push(payload);
+      }
+      appendLocalFeedItem(`Faculty Onboarding: ${payload.name}`, `${payload.qualification} • ${payload.location}`);
+
+      const message = 
+        `*🌟 FACULTY REGISTRATION — ORIGIN SPARKRISE*\n` +
+        `_Together We Grow | Founder: Oindri_\n\n` +
+        `• *Teacher Name:* ${payload.name}\n` +
+        `• *WhatsApp:* ${payload.phone}\n` +
+        `• *Highest Degree:* ${payload.qualification}\n` +
+        `• *Experience:* ${payload.experience}\n` +
+        `• *Subjects Taught:* ${payload.subjects}\n` +
+        `• *Teaching Mode:* ${payload.mode}\n` +
+        `• *Preferred Zones:* ${payload.location}\n` +
+        `• *College / Role:* ${payload.background}\n\n` +
+        `_I would like to complete my verification and receive tuition assignments._`;
+
+      window.open(`https://wa.me/${OFFICIAL_PHONE}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    // Ask Query Modal
+    function openQueryModal() {
+      document.getElementById('queryModal').classList.add('active');
+    }
+
+    function closeQueryModal() {
+      document.getElementById('queryModal').classList.remove('active');
+    }
+
+    function handleQuerySubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('q_name').value.trim();
+      const roleType = document.getElementById('q_type').value;
+      const question = document.getElementById('q_message').value.trim();
+
+      const queryPayload = {
+        name: name,
+        type: roleType,
+        question: question,
+        timestamp: new Date().toISOString()
+      };
+
+      if (isFirebaseReady && database) {
+        database.ref('queries').push(queryPayload);
+      }
+
+      const msg = 
+        `*❓ INQUIRY FOR ORIGIN SPARKRISE*\n` +
+        `_Founder: Oindri_\n\n` +
+        `• *From:* ${name} (${roleType})\n` +
+        `• *Question:* ${question}\n\n` +
+        `_Please assist me with details._`;
+
+      closeQueryModal();
+      window.open(`https://wa.me/${OFFICIAL_PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    // Live Feed Utilities
+    function appendLocalFeedItem(title, subtitle) {
+      const feed = document.getElementById('liveFeedContainer');
+      const item = document.createElement('div');
+      item.className = 'live-feed-item';
+      item.innerHTML = `
+        <div>
+          <div class="live-feed-name">${title}</div>
+          <div class="live-feed-sub">${subtitle}</div>
+        </div>
+        <div class="live-feed-time">Just now</div>
+      `;
+      feed.insertBefore(item, feed.firstChild);
+    }
+
+    function listenToFirebaseLiveFeed() {
+      if (!database) return;
+      database.ref('registrations/parents').limitToLast(5).on('child_added', (snapshot) => {
+        const val = snapshot.val();
+        if (val && val.name) {
+          const maskedName = val.name.charAt(0) + '*** ' + (val.name.split(' ')[1] || '');
+          appendLocalFeedItem(`Parent: ${maskedName} (${val.classGrade || 'Student'})`, `${val.location || 'Local area'} • ${val.subjects || ''}`);
+        }
+      });
+    }
+
+    updateSimPreview();
+  </script>
+</body>
+</html>
