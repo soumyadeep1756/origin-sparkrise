@@ -230,14 +230,14 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     .btn-gold-outline {
       border: 1px solid var(--gold-primary);
       color: var(--gold-light);
       background: rgba(212, 168, 83, 0.08);
-      padding: 0.6rem 1.1rem;
+      padding: 0.6rem 1rem;
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 600;
@@ -258,7 +258,7 @@
     .btn-wa-header {
       background: linear-gradient(135deg, var(--emerald-wa), #1ebb5c);
       color: #022c19;
-      padding: 0.6rem 1.2rem;
+      padding: 0.6rem 1.1rem;
       border-radius: 8px;
       font-size: 0.85rem;
       font-weight: 700;
@@ -1267,21 +1267,7 @@
       gap: 1rem;
     }
 
-    /* Secret Trigger Styling (Blends naturally into the footer) */
-    .secret-trigger {
-      cursor: default;
-      user-select: none;
-      color: var(--text-dim);
-      transition: color 0.3s;
-    }
-
-    .secret-trigger:hover {
-      color: var(--gold-light);
-    }
-
-    /* =========================================
-       SECRET ADMIN MODAL & DASHBOARD STYLES
-       ========================================= */
+    /* Admin Modal */
     #adminModal {
       z-index: 200;
     }
@@ -1356,7 +1342,7 @@
       text-align: center;
     }
 
-    /* Admin Workspace (Post-Login) */
+    /* Admin Workspace */
     .admin-panel {
       display: none;
     }
@@ -1411,7 +1397,7 @@
     </div>
     <div class="ticker-scroll">
       <div class="ticker-text" id="liveTickerText">
-        Welcome to ORIGIN SPARKRISE &bull; Official Founder: Oindri Samaddar &bull; Respect for Teachers is Our 1st Priority &bull; Instant WhatsApp Matchmaking active on +91 85848 02445 &bull; Real-time Firebase Sync Online!
+        Welcome to ORIGIN SPARKRISE &bull; Official Founder: Oindri Samaddar &bull; Respect for Teachers & Parents is Our 1st Priority &bull; Instant WhatsApp Matchmaking active on +91 85848 02445 &bull; Real-time Firebase Sync Online!
       </div>
     </div>
     <a href="javascript:void(0)" onclick="openQueryModal()" class="ticker-query-btn">
@@ -1455,12 +1441,15 @@
       </a>
 
       <div class="nav-actions">
-        <a href="#teachers-charter" class="btn-gold-outline"><i class="fas fa-hand-holding-heart"></i> Teachers First</a>
+        <a href="#teachers-charter" class="btn-gold-outline"><i class="fas fa-hand-holding-heart"></i> Teachers & Parents First</a>
         <a href="#why-choose" class="btn-gold-outline"><i class="fas fa-gem"></i> Why Us</a>
         <a href="javascript:void(0)" onclick="openQueryModal()" class="btn-gold-outline"><i class="far fa-question-circle"></i> Ask Query</a>
         <a href="https://wa.me/918584802445?text=Hello%20Oindri%20Samaddar%2C%20I%20have%20an%20inquiry%20regarding%20Origin%20Sparkrise." target="_blank" class="btn-wa-header">
           <i class="fab fa-whatsapp"></i> +91 85848 02445
         </a>
+        <button id="navLoginBtn" onclick="handleNavLoginClick()" class="btn-gold-outline" style="border-color: rgba(212, 168, 83, 0.4); background: rgba(212, 168, 83, 0.12);">
+          <i class="fas fa-user-lock"></i> <span id="navLoginText">Login</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -1760,7 +1749,7 @@
         </div>
         <h3>Empowering Educators With Unmatched Dignity</h3>
         <p class="lead-text">
-          At <strong>ORIGIN SPARKRISE</strong>, we strongly believe that exceptional education is impossible without respecting the teacher. We built this platform to completely eradicate unfair bureau brokerages, unreasonable demands, and toxic middleman cultures.
+          At <strong>ORIGIN SPARKRISE</strong>, we strongly believe that exceptional education is impossible without respecting both teachers and parents. We built this platform to completely eradicate unfair bureau brokerages, unreasonable demands, and toxic middleman cultures.
         </p>
       </div>
 
@@ -2034,7 +2023,7 @@
           <ul class="footer-list">
             <li><a href="#register" onclick="switchRole('parent')">Hire a Tutor</a></li>
             <li><a href="#register" onclick="switchRole('teacher')">Join as Teacher</a></li>
-            <li><a href="#teachers-charter">Teacher Dignity Charter</a></li>
+            <li><a href="#teachers-charter">Teachers & Parents First</a></li>
             <li><a href="#why-choose">Our Quality Vetting</a></li>
             <li><a href="javascript:void(0)" onclick="openQueryModal()">Submit a Question</a></li>
           </ul>
@@ -2052,7 +2041,6 @@
       </div>
 
       <div class="footer-bottom">
-        <!-- SECRET TRIGGER LOCATION: Clicking "ESTD 2024" 4 times in 2 seconds unlocks Admin Console -->
         <div>
           &copy; <span class="secret-trigger" id="secretTrigger" title="">ESTD 2024</span> &bull; ORIGIN SPARKRISE &bull; All Rights Reserved.
         </div>
@@ -2061,9 +2049,7 @@
     </div>
   </footer>
 
-  <!-- =======================================================
-       SECRET ADMIN CONSOLE MODAL (COMPLETELY INVISIBLE IN UI)
-       ======================================================= -->
+  <!-- Admin Console Modal -->
   <div class="modal-overlay" id="adminModal">
     <div class="admin-card">
       <button class="modal-close-btn" onclick="closeAdminModal()">&times;</button>
@@ -2107,8 +2093,8 @@
             </span>
             <h4 style="color: #fff; font-size: 1.25rem;">Sparkrise Live Manager</h4>
           </div>
-          <button onclick="adminLogout()" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-subtle); color: #cbd5e1; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer;">
-            <i class="fas fa-sign-out-alt"></i> Exit
+          <button onclick="adminLogout()" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.75rem; cursor: pointer;">
+            <i class="fas fa-sign-out-alt"></i> Logout Now
           </button>
         </div>
 
@@ -2121,7 +2107,6 @@
           </button>
         </div>
 
-        <!-- Sub-panel 1: Push custom match/inquiry directly to the ticker without code -->
         <div id="adminTabBroadcast">
           <form onsubmit="handlePostCustomMatch(event)">
             <div style="text-align: left; margin-bottom: 0.35rem;">
@@ -2143,7 +2128,6 @@
           </p>
         </div>
 
-        <!-- Sub-panel 2: Inspect synced nodes -->
         <div id="adminTabSync" style="display: none;">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;">
             Realtime database snapshot for <code>origin-sparkrise-default-rtdb</code>:
@@ -2160,6 +2144,111 @@
   <!-- Scripts -->
   <script>
     const OFFICIAL_PHONE = "918584802445";
+
+    // Role Switcher State
+    let currentRole = 'parent';
+
+    // Hoisted Simulator Live Preview Function
+    function updateSimPreview() {
+      const bubble = document.getElementById('simBubbleMessage');
+      if (!bubble) return;
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      if (currentRole === 'parent') {
+        const nameInput = document.getElementById('p_name');
+        const phoneInput = document.getElementById('p_phone');
+        const classInput = document.getElementById('p_class');
+        const boardInput = document.getElementById('p_board');
+        const subjectsInput = document.getElementById('p_subjects');
+        const modeInput = document.getElementById('p_mode');
+        const locInput = document.getElementById('p_loc');
+        const notesInput = document.getElementById('p_notes');
+
+        const name = (nameInput && nameInput.value.trim()) || '[Parent Name]';
+        const phone = (phoneInput && phoneInput.value.trim()) || '[Phone]';
+        const cls = (classInput && classInput.value.trim()) || '[Class]';
+        const board = (boardInput && boardInput.value) || 'CBSE';
+        const subj = (subjectsInput && subjectsInput.value.trim()) || '[Subjects]';
+        const mode = (modeInput && modeInput.value) || 'Home Tuition (Offline)';
+        const loc = (locInput && locInput.value.trim()) || '[Locality]';
+        const notes = (notesInput && notesInput.value.trim()) || 'None';
+
+        bubble.innerHTML = `
+          <div style="font-weight: 700; color: #f3d489; margin-bottom: 5px;">
+            🌟 NEW TUTOR REQUEST — ORIGIN SPARKRISE
+          </div>
+          • <b>Parent:</b> ${name}<br/>
+          • <b>Contact:</b> ${phone}<br/>
+          • <b>Class & Board:</b> ${cls} (${board})<br/>
+          • <b>Subject(s):</b> ${subj}<br/>
+          • <b>Mode:</b> ${mode}<br/>
+          • <b>Location:</b> ${loc}<br/>
+          • <b>Notes:</b> ${notes}<br/><br/>
+          <i>Please connect me with suitable verified educators.</i>
+          <div class="wa-bubble-time">
+            <span>${now}</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
+          </div>
+        `;
+      } else {
+        const nameInput = document.getElementById('t_name');
+        const phoneInput = document.getElementById('t_phone');
+        const qualInput = document.getElementById('t_qual');
+        const expInput = document.getElementById('t_exp');
+        const subjectsInput = document.getElementById('t_subjects');
+        const modeInput = document.getElementById('t_mode');
+        const locInput = document.getElementById('t_loc');
+        const collegeInput = document.getElementById('t_college');
+
+        const name = (nameInput && nameInput.value.trim()) || '[Teacher Name]';
+        const phone = (phoneInput && phoneInput.value.trim()) || '[Phone]';
+        const qual = (qualInput && qualInput.value.trim()) || '[Degree/Qual]';
+        const exp = (expInput && expInput.value) || '1 - 3 Years';
+        const subj = (subjectsInput && subjectsInput.value.trim()) || '[Subjects/Classes]';
+        const mode = (modeInput && modeInput.value) || 'Both Offline & Online';
+        const loc = (locInput && locInput.value.trim()) || '[Locations]';
+        const college = (collegeInput && collegeInput.value.trim()) || 'Not specified';
+
+        bubble.innerHTML = `
+          <div style="font-weight: 700; color: #f3d489; margin-bottom: 5px;">
+            🌟 FACULTY APPLICATION — ORIGIN SPARKRISE
+          </div>
+          • <b>Teacher:</b> ${name}<br/>
+          • <b>Contact:</b> ${phone}<br/>
+          • <b>Qualification:</b> ${qual}<br/>
+          • <b>Experience:</b> ${exp}<br/>
+          • <b>Teaches:</b> ${subj}<br/>
+          • <b>Preference:</b> ${mode}<br/>
+          • <b>Preferred Area:</b> ${loc}<br/>
+          • <b>Background:</b> ${college}<br/><br/>
+          <i>I would like to register with Origin Sparkrise faculty.</i>
+          <div class="wa-bubble-time">
+            <span>${now}</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
+          </div>
+        `;
+      }
+    }
+
+    // Role Switcher Function
+    function switchRole(role) {
+      currentRole = role;
+      const tabP = document.getElementById('tabParent');
+      const tabT = document.getElementById('tabTeacher');
+      const formP = document.getElementById('formParent');
+      const formT = document.getElementById('formTeacher');
+
+      if (role === 'parent') {
+        if (tabP) tabP.classList.add('active');
+        if (tabT) tabT.classList.remove('active');
+        if (formP) formP.style.display = 'block';
+        if (formT) formT.style.display = 'none';
+      } else {
+        if (tabT) tabT.classList.add('active');
+        if (tabP) tabP.classList.remove('active');
+        if (formT) formT.style.display = 'block';
+        if (formP) formP.style.display = 'none';
+      }
+      updateSimPreview();
+    }
 
     // ====================================================
     // OFFICIAL FIREBASE CONFIGURATION (SINGAPORE ENDPOINT)
@@ -2184,91 +2273,6 @@
       listenToFirebaseLiveFeed();
     } catch (err) {
       console.warn("Firebase initialization notice:", err);
-    }
-
-    // Role Switcher
-    let currentRole = 'parent';
-
-    function switchRole(role) {
-      currentRole = role;
-      const tabP = document.getElementById('tabParent');
-      const tabT = document.getElementById('tabTeacher');
-      const formP = document.getElementById('formParent');
-      const formT = document.getElementById('formTeacher');
-
-      if (role === 'parent') {
-        tabP.classList.add('active');
-        tabT.classList.remove('active');
-        formP.style.display = 'block';
-        formT.style.display = 'none';
-      } else {
-        tabT.classList.add('active');
-        tabP.classList.remove('active');
-        formT.style.display = 'block';
-        formP.style.display = 'none';
-      }
-      updateSimPreview();
-    }
-
-    // Dynamic Live Preview in Simulator
-    function updateSimPreview() {
-      const bubble = document.getElementById('simBubbleMessage');
-      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-      if (currentRole === 'parent') {
-        const name = document.getElementById('p_name').value.trim() || '[Parent Name]';
-        const phone = document.getElementById('p_phone').value.trim() || '[Phone]';
-        const cls = document.getElementById('p_class').value.trim() || '[Class]';
-        const board = document.getElementById('p_board').value;
-        const subj = document.getElementById('p_subjects').value.trim() || '[Subjects]';
-        const mode = document.getElementById('p_mode').value;
-        const loc = document.getElementById('p_loc').value.trim() || '[Locality]';
-        const notes = document.getElementById('p_notes').value.trim() || 'None';
-
-        bubble.innerHTML = `
-          <div style="font-weight: 700; color: #f3d489; margin-bottom: 5px;">
-            🌟 NEW TUTOR REQUEST — ORIGIN SPARKRISE
-          </div>
-          • <b>Parent:</b> ${name}<br/>
-          • <b>Contact:</b> ${phone}<br/>
-          • <b>Class & Board:</b> ${cls} (${board})<br/>
-          • <b>Subject(s):</b> ${subj}<br/>
-          • <b>Mode:</b> ${mode}<br/>
-          • <b>Location:</b> ${loc}<br/>
-          • <b>Notes:</b> ${notes}<br/><br/>
-          <i>Please connect me with suitable verified educators.</i>
-          <div class="wa-bubble-time">
-            <span>${now}</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
-          </div>
-        `;
-      } else {
-        const name = document.getElementById('t_name').value.trim() || '[Teacher Name]';
-        const phone = document.getElementById('t_phone').value.trim() || '[Phone]';
-        const qual = document.getElementById('t_qual').value.trim() || '[Degree/Qual]';
-        const exp = document.getElementById('t_exp').value;
-        const subj = document.getElementById('t_subjects').value.trim() || '[Subjects/Classes]';
-        const mode = document.getElementById('t_mode').value;
-        const loc = document.getElementById('t_loc').value.trim() || '[Locations]';
-        const college = document.getElementById('t_college').value.trim() || 'Not specified';
-
-        bubble.innerHTML = `
-          <div style="font-weight: 700; color: #f3d489; margin-bottom: 5px;">
-            🌟 FACULTY APPLICATION — ORIGIN SPARKRISE
-          </div>
-          • <b>Teacher:</b> ${name}<br/>
-          • <b>Contact:</b> ${phone}<br/>
-          • <b>Qualification:</b> ${qual}<br/>
-          • <b>Experience:</b> ${exp}<br/>
-          • <b>Teaches:</b> ${subj}<br/>
-          • <b>Preference:</b> ${mode}<br/>
-          • <b>Preferred Area:</b> ${loc}<br/>
-          • <b>Background:</b> ${college}<br/><br/>
-          <i>I would like to register with Origin Sparkrise faculty.</i>
-          <div class="wa-bubble-time">
-            <span>${now}</span> <i class="fas fa-check-double" style="color: #53bdeb;"></i>
-          </div>
-        `;
-      }
     }
 
     // Submit Parent Form
@@ -2384,6 +2388,7 @@
     // Live Feed Utilities
     function appendLocalFeedItem(title, subtitle) {
       const feed = document.getElementById('liveFeedContainer');
+      if (!feed) return;
       const item = document.createElement('div');
       item.className = 'live-feed-item';
       item.innerHTML = `
@@ -2418,37 +2423,59 @@
     }
 
     // =======================================================
-    // SECRET ADMIN TRIGGER & AUTHENTICATION CONTROLS
+    // ADMIN AUTHENTICATION & SESSION AUTO-LOGOUT
     // =======================================================
     const ADMIN_USER_ID = "OINDRI1756";
     const ADMIN_PASSWORD = "ADMIN1756";
 
-    let secretClickCount = 0;
-    let secretTimer = null;
+    // Session-based checking: Closing tab/browser automatically ends the session
+    function checkAdminSession() {
+      const isAuth = sessionStorage.getItem('sparkrise_admin_session') === 'true';
+      const navLoginBtn = document.getElementById('navLoginBtn');
+      const navLoginText = document.getElementById('navLoginText');
 
-    // Detect 4 rapid clicks on "ESTD 2024" in footer
-    const triggerEl = document.getElementById('secretTrigger');
-    if (triggerEl) {
-      triggerEl.addEventListener('click', () => {
-        secretClickCount++;
-        clearTimeout(secretTimer);
-        
-        secretTimer = setTimeout(() => {
-          secretClickCount = 0;
-        }, 2000);
-
-        if (secretClickCount >= 4) {
-          secretClickCount = 0;
-          openAdminModal();
+      if (isAuth) {
+        if (navLoginText) navLoginText.textContent = "Logout";
+        if (navLoginBtn) {
+          navLoginBtn.style.background = "rgba(239, 68, 68, 0.15)";
+          navLoginBtn.style.borderColor = "rgba(239, 68, 68, 0.4)";
+          navLoginBtn.style.color = "#fca5a5";
         }
-      });
+      } else {
+        if (navLoginText) navLoginText.textContent = "Login";
+        if (navLoginBtn) {
+          navLoginBtn.style.background = "rgba(212, 168, 83, 0.12)";
+          navLoginBtn.style.borderColor = "rgba(212, 168, 83, 0.4)";
+          navLoginBtn.style.color = "var(--gold-light)";
+        }
+      }
+    }
+
+    function handleNavLoginClick() {
+      const isAuth = sessionStorage.getItem('sparkrise_admin_session') === 'true';
+      if (isAuth) {
+        // If already logged in, clicking the top-right button logs you out
+        adminLogout();
+      } else {
+        openAdminModal();
+      }
     }
 
     function openAdminModal() {
+      const isAuth = sessionStorage.getItem('sparkrise_admin_session') === 'true';
       document.getElementById('adminModal').classList.add('active');
       document.getElementById('adminLoginErr').style.display = 'none';
-      document.getElementById('adminUser').value = '';
-      document.getElementById('adminPass').value = '';
+
+      if (isAuth) {
+        document.getElementById('adminLoginForm').style.display = 'none';
+        document.getElementById('adminWorkspace').style.display = 'block';
+        loadAdminSyncEntries();
+      } else {
+        document.getElementById('adminLoginForm').style.display = 'block';
+        document.getElementById('adminWorkspace').style.display = 'none';
+        document.getElementById('adminUser').value = '';
+        document.getElementById('adminPass').value = '';
+      }
     }
 
     function closeAdminModal() {
@@ -2461,6 +2488,9 @@
       const p = document.getElementById('adminPass').value.trim();
 
       if (u === ADMIN_USER_ID && p === ADMIN_PASSWORD) {
+        // Scoped strictly to session storage so leaving or reopening requires password
+        sessionStorage.setItem('sparkrise_admin_session', 'true');
+        checkAdminSession();
         document.getElementById('adminLoginForm').style.display = 'none';
         document.getElementById('adminWorkspace').style.display = 'block';
         loadAdminSyncEntries();
@@ -2470,9 +2500,12 @@
     }
 
     function adminLogout() {
+      sessionStorage.removeItem('sparkrise_admin_session');
+      checkAdminSession();
       document.getElementById('adminWorkspace').style.display = 'none';
       document.getElementById('adminLoginForm').style.display = 'block';
       closeAdminModal();
+      alert('You have been logged out.');
     }
 
     function switchAdminTab(tab) {
@@ -2495,7 +2528,6 @@
       }
     }
 
-    // Publish a custom match/inquiry directly from the secret console to Firebase
     function handlePostCustomMatch(e) {
       e.preventDefault();
       const title = document.getElementById('admMatchTitle').value.trim();
@@ -2550,7 +2582,11 @@
       });
     }
 
-    updateSimPreview();
+    // Initialize session state & preview on window load safely
+    window.addEventListener('DOMContentLoaded', () => {
+      checkAdminSession();
+      updateSimPreview();
+    });
   </script>
 </body>
 </html>
