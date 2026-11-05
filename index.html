@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>ORIGIN SPARKRISE | Together We Grow - Premier Tutor Matchmaking</title>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6QQ43TB1C8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6QQ43TB1C8');
+  </script>
+
   <meta name="description" content="Origin Sparkrise - Premier home and online tutor matchmaking in Kolkata and West Bengal. Connect with verified teachers and parents. Founded by Oindri Samaddar." />
   <meta name="theme-color" content="#080a0f" />
 
@@ -63,7 +73,6 @@
     .brand-logo-svg { width: 100%; height: 100%; }
     .brand-text h2 { font-family: var(--brand-font); font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .brand-meta { font-size: 0.65rem; color: var(--gold-primary); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; }
-    .brand-badge { background: rgba(212, 168, 83, 0.15); border: 1px solid rgba(212, 168, 83, 0.3); padding: 0.05rem 0.35rem; border-radius: 4px; font-size: 0.6rem; color: var(--gold-light); }
     .nav-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .btn-gold-outline { border: 1px solid var(--gold-primary); color: var(--gold-light); background: rgba(212, 168, 83, 0.08); padding: 0.48rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; white-space: nowrap; }
     .btn-wa-header { background: var(--emerald-wa); color: #022c19; padding: 0.48rem 0.85rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
@@ -128,6 +137,19 @@
     .live-reg-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
     .live-feed-list { display: flex; flex-direction: column; gap: 0.5rem; max-height: 135px; overflow-y: auto; }
     .live-feed-item { display: flex; align-items: center; justify-content: space-between; font-size: 0.72rem; background: rgba(255, 255, 255, 0.025); padding: 0.4rem 0.6rem; border-radius: 6px; border-left: 3px solid var(--gold-primary); gap: 0.5rem; }
+
+    /* Charter Section */
+    .teachers-charter-section { padding: 4rem 0; background: #07090f; }
+    .charter-banner { text-align: center; max-width: 700px; margin: 0 auto 2.5rem; }
+    .charter-badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(212, 168, 83, 0.1); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; margin-bottom: 0.8rem; }
+    .charter-banner h3 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
+    .charter-banner .lead-text { color: var(--text-muted); font-size: 0.95rem; }
+    .charter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+    .charter-card { background: #101522; border: 1px solid var(--card-border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .charter-card-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(212, 168, 83, 0.12); border: 1px solid rgba(212, 168, 83, 0.3); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.1rem; margin-bottom: 1rem; }
+    .charter-card h4 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .charter-card p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 1rem; }
+    .charter-pill { align-self: flex-start; background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: var(--emerald-wa); font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; }
 
     /* Modals & Admin */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 100; display: none; align-items: center; justify-content: center; padding: 1rem; }
@@ -428,28 +450,28 @@
       </div>
 
       <div class="charter-grid">
-        <div class="charter-card highlight">
+        <div class="charter-card">
           <div class="charter-card-icon"><i class="fas fa-crown"></i></div>
           <h4>Respect for Teachers is Our 1st Priority</h4>
           <p>Educators are intellectual mentors shaping tomorrow. Every assignment guarantees decorum, dignity, and cordiality.</p>
           <span class="charter-pill">100% Guaranteed Respect</span>
         </div>
 
-        <div class="charter-card highlight">
+        <div class="charter-card">
           <div class="charter-card-icon"><i class="fas fa-hand-holding-usd"></i></div>
           <h4>Zero Fee & Consultancy Arguments</h4>
           <p>No hidden 50% lifetime cuts and zero awkward disputes. Financial transparency is confirmed upfront with absolute clarity.</p>
           <span class="charter-pill">Financial Peace</span>
         </div>
 
-        <div class="charter-card highlight">
+        <div class="charter-card">
           <div class="charter-card-icon"><i class="fas fa-route"></i></div>
           <h4>Flexible Locations & Timings</h4>
           <p>Matched specifically around your commute routes, neighborhood radii, or online time slots.</p>
           <span class="charter-pill">Your Terms</span>
         </div>
 
-        <div class="charter-card highlight">
+        <div class="charter-card">
           <div class="charter-card-icon"><i class="fas fa-comments"></i></div>
           <h4>Humble & Polite Response</h4>
           <p>No automated bots. Direct, respectful communication handled personally by Founder Oindri Samaddar.</p>
@@ -550,7 +572,7 @@
 
   <script>
     // ==============================================================
-    // THE ADMIN EMAIL HAS BEEN PRE-FILLED FOR YOU HERE
+    // AUTHORIZED ADMIN EMAIL
     // ==============================================================
     const ADMIN_EMAIL = "osrtheoriginsparkrise@gmail.com"; 
     // ==============================================================
@@ -564,7 +586,8 @@
       projectId: "origin-sparkrise",
       storageBucket: "origin-sparkrise.firebasestorage.app",
       messagingSenderId: "323155123131",
-      appId: "1:323155123131:web:e7d04ee66baf8f166e829e"
+      appId: "1:323155123131:web:e7d04ee66baf8f166e829e",
+      measurementId: "G-6QQ43TB1C8"
     };
 
     let isFirebaseReady = false;
@@ -592,7 +615,7 @@
         formP.style.display = 'block'; formT.style.display = 'none';
       } else {
         tabT.classList.add('active'); tabP.classList.remove('active');
-        formT.style.display = 'block'; formP.style.display = 'none';
+        formT.style.display = 'block'; formT.style.display = 'none';
       }
       updateSimPreview();
     }
@@ -676,7 +699,6 @@
       const container = document.getElementById('tuitionGridContainer');
       if (!container) return;
 
-      // Remove the "Loading..." placeholder if it exists
       if(container.innerHTML.includes('Loading available tuitions')) {
         container.innerHTML = '';
       }
@@ -737,7 +759,6 @@
       const provider = new firebase.auth.GoogleAuthProvider();
       auth.signInWithPopup(provider)
         .then((result) => {
-          // Check if the Google email matches the founder's email
           if (result.user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
             auth.signOut();
             errDiv.innerText = "Access Denied: This Google account is not authorized as Admin.";
@@ -761,7 +782,6 @@
       if(tab === 'history') loadRegistrationHistory();
     }
 
-    // Fetch and display History in Dashboard
     function loadRegistrationHistory() {
       const container = document.getElementById('historyContainer');
       container.innerHTML = '<div style="text-align:center; color:var(--gold-light);">Fetching records from Firebase...</div>';
@@ -854,10 +874,8 @@
           auth = firebase.auth();
           isFirebaseReady = true;
 
-          // Maintain Session state
           auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
-          // Handle Auth State Changes dynamically
           auth.onAuthStateChanged((user) => {
             const btnText = document.getElementById('navLoginText');
             const loginForm = document.getElementById('adminLoginForm');
@@ -875,7 +893,6 @@
             }
           });
 
-          // Fetch Live Data
           database.ref('available_tuitions').limitToLast(12).on('child_added', (snap) => {
             const val = snap.val();
             if (val && val.classGrade) appendTuitionCard(val);
