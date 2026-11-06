@@ -14,16 +14,11 @@
     gtag('config', 'G-6QQ43TB1C8');
   </script>
 
-  <!-- Open Graph Tags (For Beautiful WhatsApp/Social Media Link Previews) -->
   <meta property="og:title" content="ORIGIN SPARKRISE | Premier Tutor Matchmaking" />
   <meta property="og:description" content="Connecting learners to top subject mentors across West Bengal. Built on dignity and transparent pay." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1200&auto=format&fit=crop" />
   <meta property="og:type" content="website" />
-
-  <!-- Standalone Golden Star Browser Tab Icon (Favicon) -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><polygon points=%2250,10 61,35 88,35 66,51 74,77 50,61 26,77 34,51 12,35 39,35%22 fill=%22%23d4a853%22/></svg>" type="image/svg+xml">
-
-  <meta name="description" content="Origin Sparkrise - Premier home and online tutor matchmaking in Kolkata and West Bengal. Connect with verified teachers and parents. Founded by Oindri Samaddar." />
   <meta name="theme-color" content="#080a0f" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,23 +47,19 @@
       --body-font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Smooth Scrolling for navigation links */
     html { scroll-behavior: smooth; }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg-dark); color: var(--text-main); font-family: var(--body-font); overflow-x: hidden; line-height: 1.5; }
 
-    /* Beautiful Dark Desk Background with Gradient Overlay */
     .bg-image {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
       background: linear-gradient(to bottom, rgba(8, 10, 15, 0.90), rgba(8, 10, 15, 0.98)), 
                   url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+      transform: translateZ(0); /* Hardware acceleration for lag-free scrolling */
     }
 
     .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; position: relative; z-index: 1; }
-    .contain-section { content-visibility: auto; contain-intrinsic-size: 1px 500px; }
-
-    /* Top Marquee */
+    
     .live-ticker-wrap { background: #0d121c; border-bottom: 1px solid var(--border-subtle); font-size: 0.78rem; padding: 0.4rem 0.75rem; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 50; gap: 0.75rem; }
     .ticker-left { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--gold-light); font-weight: 700; white-space: nowrap; }
     .live-pulse-dot { width: 8px; height: 8px; background-color: var(--emerald-wa); border-radius: 50%; }
@@ -76,8 +67,7 @@
     .ticker-text { display: inline-block; white-space: nowrap; animation: marquee 26s linear infinite; color: var(--text-muted); }
     @keyframes marquee { 0% { transform: translate3d(100%, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
 
-    /* Navbar */
-    nav { position: sticky; top: 0; z-index: 40; background: rgba(10, 13, 20, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-subtle); }
+    nav { position: sticky; top: 0; z-index: 40; background: rgba(10, 13, 20, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-subtle); transform: translateZ(0); }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 0.75rem; }
     .brand-wrap { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; min-width: 0; }
     .brand-logo-frame { width: 44px; height: 44px; border-radius: 50%; background: #181d29; border: 1.5px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; padding: 3px; flex-shrink: 0; }
@@ -86,12 +76,10 @@
     .brand-meta { font-size: 0.65rem; color: var(--gold-primary); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; }
     .nav-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
     .btn-gold-outline { border: 1px solid var(--gold-primary); color: var(--gold-light); background: rgba(212, 168, 83, 0.08); padding: 0.48rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; text-decoration: none; white-space: nowrap; }
-    
     .btn-wa-header { background: var(--emerald-wa); color: #022c19; padding: 0.48rem 0.85rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; }
     .btn-login-nav { background: #161b26; border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 0.48rem 0.8rem; border-radius: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap; transition: all 0.2s; }
     .btn-login-nav:hover { background: var(--gold-primary); color: #000; }
 
-    /* Hero */
     .hero { padding: 4rem 0 3rem; text-align: center; }
     .hero-pretitle { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.35rem 1rem; border-radius: 999px; background: rgba(212, 168, 83, 0.12); border: 1px solid rgba(212, 168, 83, 0.3); color: var(--gold-light); font-size: 0.8rem; font-weight: 700; margin-bottom: 1.2rem; max-width: 100%; box-shadow: 0 4px 20px rgba(212, 168, 83, 0.1); }
     .hero h1 { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 800; line-height: 1.15; max-width: 900px; margin: 0 auto 1.25rem; letter-spacing: -0.02em; }
@@ -102,15 +90,14 @@
     .btn-hero-parent:hover { transform: translateY(-2px); }
     .btn-hero-teacher { background: #141926; color: #fff; border: 1px solid var(--border-subtle); padding: 0.85rem 1.6rem; border-radius: 9px; font-weight: 700; font-size: 0.95rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; }
     
-    /* Stats Row */
     .stats-wrap { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto; padding: 2.5rem 0 0; border-top: 1px solid rgba(255, 255, 255, 0.1); }
     @media (min-width: 768px) { .stats-wrap { grid-template-columns: repeat(4, 1fr); } }
     .stat-item { text-align: center; }
     .stat-item h3 { font-size: 2.2rem; color: var(--gold-light); font-weight: 800; margin-bottom: 0.2rem; font-family: var(--brand-font); }
     .stat-item p { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
 
-    /* The Sparkrise Advantage */
-    .advantage-section { padding: 4.5rem 0; background: rgba(7, 9, 15, 0.7); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); backdrop-filter: blur(5px); }
+    /* The Sparkrise Advantage Grid */
+    .advantage-section { padding: 4.5rem 0; background: rgba(7, 9, 15, 0.7); border-top: 1px solid var(--border-subtle); backdrop-filter: blur(5px); }
     .section-head { text-align: center; max-width: 750px; margin: 0 auto 3rem; }
     .section-tag { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-primary); margin-bottom: 0.5rem; display: block; }
     .section-head h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; color: #fff; line-height: 1.2; }
@@ -123,6 +110,22 @@
     .adv-icon.wa { background: rgba(37, 211, 102, 0.12); border-color: rgba(37, 211, 102, 0.3); color: var(--emerald-wa); }
     .adv-content h4 { font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; }
     .adv-content p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* Faculty Pledge Section */
+    .pledge-section { padding: 4rem 0; display: flex; justify-content: center; }
+    .pledge-card { background: linear-gradient(180deg, #121826 0%, #0a0d14 100%); border: 1.5px solid var(--gold-primary); border-radius: 20px; padding: 3rem 2rem; max-width: 500px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    .pledge-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(212, 168, 83, 0.1); border: 1px solid var(--gold-primary); color: var(--gold-light); padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; font-family: var(--brand-font); }
+    .pledge-card h2 { font-family: var(--brand-font); font-size: 2.2rem; color: #fff; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; text-transform: uppercase; }
+    .pledge-card p { font-size: 1.05rem; color: #cbd5e1; line-height: 1.6; }
+
+    /* Original 6-Point Charter */
+    .charter-section { padding: 4rem 0; background: #07090f; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+    .charter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .charter-card { background: #101522; border: 1px solid var(--card-border); border-radius: 16px; padding: 1.75rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .charter-card-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(212, 168, 83, 0.12); border: 1px solid rgba(212, 168, 83, 0.3); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.2rem; margin-bottom: 1.25rem; }
+    .charter-card h4 { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem; line-height: 1.3; }
+    .charter-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem; }
+    .charter-pill { align-self: flex-start; background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.3); color: var(--emerald-wa); font-size: 0.75rem; font-weight: 800; padding: 0.25rem 0.6rem; border-radius: 6px; }
 
     /* Available Tuitions */
     .available-tuitions-section { padding: 4rem 0; }
@@ -137,7 +140,7 @@
     .btn-apply-tuition { width: 100%; margin-top: 1.25rem; padding: 0.8rem; background: var(--emerald-wa); color: #032b17; border: none; border-radius: 8px; font-weight: 800; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.45rem; text-decoration: none; transition: filter 0.2s; }
     .btn-apply-tuition:hover { filter: brightness(1.1); }
 
-    /* Dual Engine */
+    /* Dual Engine Form */
     .engine-section { padding: 4rem 0; background: rgba(0, 0, 0, 0.4); border-top: 1px solid var(--border-subtle); }
     .dual-pane-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 2rem; align-items: start; }
     @media (max-width: 900px) { .dual-pane-grid { grid-template-columns: 1fr; } }
@@ -207,18 +210,19 @@
       .hero-cta-group { flex-direction: column; width: 100%; }
       .btn-hero-parent, .btn-hero-teacher, .btn-hero-available { width: 100%; justify-content: center; }
       
-      /* Mobile WhatsApp Header Fix */
       .btn-wa-header span { display: none; }
       .btn-wa-header { padding: 0.48rem 0.65rem; }
       
       .stats-wrap { grid-template-columns: repeat(2, 1fr); padding: 2rem 0 0; }
       .stat-item h3 { font-size: 1.8rem; }
+      
+      .pledge-card { padding: 2.5rem 1.5rem; margin: 0 1rem; }
+      .pledge-card h2 { font-size: 1.8rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- The beautiful dark study background -->
   <div class="bg-image"></div>
 
   <!-- Real-Time Top Ticker -->
@@ -288,7 +292,6 @@
         <a href="#available-tuitions" class="btn-hero-available"><i class="fas fa-briefcase"></i> View Tuitions</a>
       </div>
 
-      <!-- Live Metrics -->
       <div class="stats-wrap">
         <div class="stat-item">
           <h3>850+</h3>
@@ -310,7 +313,7 @@
     </div>
   </section>
 
-  <!-- The Sparkrise Advantage -->
+  <!-- Why Choose Us Grid -->
   <section class="advantage-section" id="advantage">
     <div class="container">
       <div class="section-head">
@@ -371,6 +374,70 @@
     </div>
   </section>
 
+  <!-- The Origin Sparkrise Faculty Pledge -->
+  <section class="pledge-section" id="pledge">
+    <div class="container">
+      <div class="pledge-card">
+        <div class="pledge-badge">
+          <i class="fas fa-medal"></i> THE ORIGIN SPARKRISE FACULTY PLEDGE
+        </div>
+        <h2>EMPOWERING EDUCATORS WITH UNMATCHED DIGNITY</h2>
+        <p>
+          At <b>ORIGIN SPARKRISE</b>, we strongly believe that exceptional education is impossible without respecting both teachers and parents. We built this platform to completely eradicate unfair bureau brokerages, unreasonable demands, and toxic middleman cultures.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 6-Point Charter -->
+  <section class="charter-section" id="charter">
+    <div class="container">
+      <div class="charter-grid">
+        <div class="charter-card">
+          <div class="charter-card-icon"><i class="fas fa-crown"></i></div>
+          <h4>Respect for Teachers is Our 1st Priority</h4>
+          <p>You are not just a tutor; you are an intellectual mentor shaping India's next generation. We ensure that every home and online assignment maintains strict decorum, dignity, and cordiality for you.</p>
+          <span class="charter-pill"><i class="fas fa-check-circle"></i> 100% Guaranteed Respect</span>
+        </div>
+
+        <div class="charter-card">
+          <div class="charter-card-icon"><i class="fas fa-hand-holding-usd"></i></div>
+          <h4>Almost Zero Argument Regarding Fees & Consultancy Charges</h4>
+          <p>No predatory, hidden 50% lifetime cuts, and no exhausting negotiations. Our financial arrangements and consultancy policies are crystal-clear upfront, leaving zero room for arguments or awkward discussions.</p>
+          <span class="charter-pill"><i class="fas fa-check-circle"></i> Absolute Financial Peace</span>
+        </div>
+
+        <div class="charter-card">
+          <div class="charter-card-icon"><i class="fas fa-route"></i></div>
+          <h4>Flexible Locations & Timings</h4>
+          <p>Your convenience is our priority. We match tuitions strictly within your preferred railway routes, neighborhood radii, or online time slots so you never spend hours exhausted in transit.</p>
+          <span class="charter-pill"><i class="fas fa-check-circle"></i> Work on Your Terms</span>
+        </div>
+
+        <div class="charter-card">
+          <div class="charter-card-icon"><i class="fas fa-comments"></i></div>
+          <h4>Humble & Polite Response From Our Side</h4>
+          <p>Never deal with robotic auto-responders or curt agency clerks. Founder Oindri Samaddar personally handles communications with grace and professional politeness.</p>
+          <span class="charter-pill"><i class="fas fa-check-circle"></i> Direct Founder Desk</span>
+        </div>
+
+        <div class="charter-card">
+          <div class="charter-card-icon"><i class="fas fa-user-check"></i></div>
+          <h4>Pre-Screened, Respectful Families</h4>
+          <p>We don't send you blindly into unvetted homes. Our academic team speaks directly with parents first to ensure they value education and will treat our faculty with high regard.</p>
+          <span class="charter-pill"><i class="fas fa-check-circle"></i> Safe & Secure</span>
+        </div>
+
+        <div class="charter-card">
+          <div class="charter-card-icon"><i class="fas fa-chart-line"></i></div>
+          <h4>Continuous Batch & Student Growth</h4>
+          <p>Consistently performing teachers get prioritized for premium high-paying assignments and batch expansions. If you deliver results, we deliver continuous growth.</p>
+          <span class="charter-pill"><i class="fas fa-check-circle"></i> Career Progression</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- AVAILABLE TUITIONS NOTICEBOARD -->
   <section class="available-tuitions-section contain-section" id="available-tuitions">
     <div class="container">
@@ -380,7 +447,8 @@
         <p>Verified openings from parents seeking passionate educators. Apply directly to Founder Oindri on WhatsApp.</p>
       </div>
       <div class="tuition-grid" id="tuitionGridContainer">
-        <div style="color:var(--text-muted); text-align:center; width:100%; grid-column: 1/-1; padding: 2rem; background: rgba(16,21,34,0.6); border-radius: 12px; border: 1px solid var(--border-subtle);">Loading available tuitions from database...</div>
+        <!-- Fetched from Firebase dynamically OR populated by auto-sync -->
+        <div id="loadingTuitionsMsg" style="color:var(--text-muted); text-align:center; width:100%; grid-column: 1/-1; padding: 2rem; background: rgba(16,21,34,0.6); border-radius: 12px; border: 1px solid var(--border-subtle);">Syncing live tuitions from database...</div>
       </div>
     </div>
   </section>
@@ -415,7 +483,6 @@
               </div>
               <div class="form-group">
                 <label class="field-label">WhatsApp Contact No.</label>
-                <!-- STRICT 10-DIGIT VALIDATION APPLIED HERE -->
                 <input type="tel" id="p_phone" class="field-input" placeholder="e.g. 9876543210" pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required oninput="debouncedSimPreview()" />
               </div>
               <div class="form-group">
@@ -464,7 +531,6 @@
               </div>
               <div class="form-group">
                 <label class="field-label">WhatsApp Contact No.</label>
-                <!-- STRICT 10-DIGIT VALIDATION APPLIED HERE -->
                 <input type="tel" id="t_phone" class="field-input" placeholder="e.g. 9830112233" pattern="[0-9]{10}" maxlength="10" title="Please enter exactly 10 digits" required oninput="debouncedSimPreview()" />
               </div>
               <div class="form-group">
@@ -555,7 +621,6 @@
     <div class="admin-card">
       <button class="modal-close-btn" onclick="closeAdminModal()">&times;</button>
       
-      <!-- Google Login Gate -->
       <div id="adminLoginForm">
         <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.5rem;"><i class="fas fa-shield-alt" style="color: var(--gold-light);"></i> Executive Login</h3>
         <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 2rem;">
@@ -569,7 +634,6 @@
         <div id="adminLoginErr" style="color: #ef4444; font-size: 0.9rem; font-weight: 700; margin-top: 1.25rem; display: none; text-align: center;"></div>
       </div>
 
-      <!-- Authenticated Dashboard -->
       <div id="adminWorkspace" style="display: none;">
         <div class="admin-nav-tabs">
           <button class="admin-nav-tab active" id="tabHistoryBtn" onclick="switchAdminSubTab('history')">
@@ -583,7 +647,6 @@
           </button>
         </div>
 
-        <!-- TAB 1: VIEW HISTORY -->
         <div id="adminTabHistory">
           <h4 style="color: #fff; margin-bottom: 0.4rem; font-size: 1.2rem;">Registration History</h4>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Live feed of all forms submitted by Parents and Tutors.</p>
@@ -595,7 +658,6 @@
           </div>
         </div>
 
-        <!-- TAB 2: UPLOAD TUITION REQUIREMENT -->
         <div id="adminTabUploadTuition" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Post New Tuition Requirement</h4>
           <form onsubmit="handleUploadTuitionRequirement(event)">
@@ -606,14 +668,12 @@
             <input type="text" id="admTFees" class="admin-input" placeholder="Fees Offered (e.g. ₹5,000 / month)" required />
             <input type="text" id="admTDays" class="admin-input" placeholder="Days per Week (e.g. 3 Days / Week, 2 hrs/day)" required />
             <input type="text" id="admTNotes" class="admin-input" placeholder="Notes (e.g. Female tutor preferred, urgent)" />
-
             <button type="submit" class="admin-btn" style="background: var(--emerald-wa); color: #000;">
               <i class="fas fa-cloud-upload-alt"></i> Post Tuition Requirement
             </button>
           </form>
         </div>
 
-        <!-- TAB 3: BROADCAST MATCH TICKER -->
         <div id="adminTabBroadcast" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Broadcast Ticker Item</h4>
           <form onsubmit="handlePostCustomMatch(event)">
@@ -654,11 +714,18 @@
       measurementId: "G-6QQ43TB1C8"
     };
 
+    const backupTuitions = [
+      { classGrade: "Class 10", board: "CBSE", subjects: "Mathematics & Science", location: "Salt Lake Sector 1, Kolkata", days: "3 Days / Week", fees: "₹4,000 / month", notes: "Requires experienced tutor for board prep." },
+      { classGrade: "Spoken English", board: "Adult Learning", subjects: "Fluency & Grammar", location: "Online (Google Meet)", days: "2 Days / Week", fees: "₹2,500 / month", notes: "Working professional looking to improve communication." },
+      { classGrade: "Class 12", board: "WBCHSE", subjects: "Physics", location: "Kalyani, Nadia", days: "2 Days / Week", fees: "₹3,500 / month", notes: "Needs focus on numericals and competitive exams." }
+    ];
+
     let isFirebaseReady = false;
     let database = null;
     let auth = null;
     let currentRole = 'parent';
     let debounceTimer = null;
+    let tuitionsLoaded = 0;
 
     function debouncedSimPreview() {
       clearTimeout(debounceTimer);
@@ -761,11 +828,8 @@
 
     function appendTuitionCard(item) {
       const container = document.getElementById('tuitionGridContainer');
-      if (!container) return;
-
-      if(container.innerHTML.includes('Loading available tuitions') || container.innerHTML.includes('No tuitions available')) {
-        container.innerHTML = '';
-      }
+      const loader = document.getElementById('loadingTuitionsMsg');
+      if (loader) loader.remove();
 
       const card = document.createElement('div');
       card.className = 'tuition-card';
@@ -954,15 +1018,18 @@
             }
           });
 
-          // Empty state handler for tuitions
           database.ref('available_tuitions').once('value', (snap) => {
             if (!snap.exists()) {
-              const container = document.getElementById('tuitionGridContainer');
-              if(container) container.innerHTML = '<div style="color:var(--text-muted); text-align:center; width:100%; grid-column: 1/-1; padding: 2rem; background: rgba(16,21,34,0.6); border-radius: 12px; border: 1px solid var(--border-subtle);">No tuitions available right now. Please check back later!</div>';
+              backupTuitions.forEach(t => appendTuitionCard(t));
             }
           });
 
           database.ref('available_tuitions').limitToLast(12).on('child_added', (snap) => {
+            tuitionsLoaded++;
+            if (tuitionsLoaded === 1) {
+              const container = document.getElementById('tuitionGridContainer');
+              if (container) container.innerHTML = '';
+            }
             const val = snap.val();
             if (val && val.classGrade) appendTuitionCard(val);
           });
@@ -974,6 +1041,7 @@
         }
       } catch (err) {
         console.warn('Backend initialized in fallback mode:', err);
+        backupTuitions.forEach(t => appendTuitionCard(t));
       }
     });
   </script>
