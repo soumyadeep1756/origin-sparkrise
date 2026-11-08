@@ -82,7 +82,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     /* ========================================= */
-    /* NEW: WELCOME POPUP SCREEN                 */
+    /* UPGRADED WELCOME POPUP SCREEN             */
     /* ========================================= */
     .welcome-overlay {
       position: fixed;
@@ -97,11 +97,7 @@
       text-align: center;
       transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
-
-    .welcome-overlay.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
+    .welcome-overlay.hidden { opacity: 0; visibility: hidden; }
 
     .welcome-logo {
       max-width: 280px;
@@ -109,15 +105,28 @@
       animation: fadeIn 1s ease-out forwards;
     }
 
-    .welcome-text {
+    .welcome-heading {
+      font-family: var(--brand-font);
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      font-weight: 800;
       color: #fff;
+      margin-bottom: 0.5rem;
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    .welcome-subtext {
       font-family: var(--body-font);
-      font-size: 1.1rem;
-      font-weight: 500;
+      font-size: 1.05rem;
+      color: #cbd5e1;
       line-height: 1.6;
       max-width: 500px;
       margin-bottom: 2.5rem;
-      animation: fadeIn 1.2s ease-out forwards;
+      animation: fadeIn 1.3s ease-out forwards;
+    }
+    
+    .welcome-subtext b {
+      color: var(--gold-light);
+      font-weight: 700;
     }
 
     .btn-welcome-continue {
@@ -132,9 +141,8 @@
       cursor: pointer;
       letter-spacing: 1px;
       transition: all 0.3s ease;
-      animation: fadeIn 1.4s ease-out forwards;
+      animation: fadeIn 1.5s ease-out forwards;
     }
-
     .btn-welcome-continue:hover {
       background: var(--gold-primary);
       color: #000;
@@ -344,14 +352,18 @@
 <body class="no-scroll">
 
   <!-- ============================================== -->
-  <!-- THE WELCOME POP-UP SCREEN                      -->
+  <!-- UPGRADED WELCOME POP-UP SCREEN                 -->
   <!-- ============================================== -->
   <div class="welcome-overlay" id="welcomePopup">
     <img src="logo.jpg.jpeg" alt="Origin Sparkrise Logo" class="welcome-logo">
-    <p class="welcome-text">
-      Welcome to Origin Sparkrise.<br><br>
-      One of the best tuition providing portals all over West Bengal.
+    
+    <h2 class="welcome-heading">
+      Welcome to <span class="gradient-gold">Origin Sparkrise</span>
+    </h2>
+    <p class="welcome-subtext">
+      One of the best tuition providing portals all over <b>West Bengal</b>.
     </p>
+
     <button class="btn-welcome-continue" onclick="dismissWelcome()">CONTINUE</button>
   </div>
   <!-- ============================================== -->
