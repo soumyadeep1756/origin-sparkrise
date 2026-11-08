@@ -14,6 +14,32 @@
     gtag('config', 'G-6QQ43TB1C8');
   </script>
 
+  <!-- Advanced Local SEO Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Origin Sparkrise",
+    "founder": {
+      "@type": "Person",
+      "name": "Oindri Samaddar"
+    },
+    "description": "Premier home and online tutor matchmaking in Kolkata and West Bengal. K-12 academic tuitions and premium Spoken English classes.",
+    "url": "https://soumyadeep1756.github.io/origin-sparkrise/",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Kolkata",
+      "addressRegion": "West Bengal",
+      "addressCountry": "IN"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-85848-02445",
+      "contactType": "customer service"
+    }
+  }
+  </script>
+
   <meta property="og:title" content="ORIGIN SPARKRISE | Premier Tutor Matchmaking" />
   <meta property="og:description" content="Connecting learners to top subject mentors and premium Spoken English classes. Built on dignity and transparent pay." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=1200&auto=format&fit=crop" />
@@ -48,8 +74,77 @@
     }
 
     html { scroll-behavior: smooth; }
+    
+    /* Lock scrolling on the body while the welcome screen is active */
+    body { background-color: var(--bg-dark); color: var(--text-main); font-family: var(--body-font); overflow-x: hidden; line-height: 1.5; margin: 0; padding: 0; }
+    body.no-scroll { overflow: hidden; }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { background-color: var(--bg-dark); color: var(--text-main); font-family: var(--body-font); overflow-x: hidden; line-height: 1.5; }
+
+    /* ========================================= */
+    /* NEW: WELCOME POPUP SCREEN                 */
+    /* ========================================= */
+    .welcome-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: #000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    }
+
+    .welcome-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .welcome-logo {
+      max-width: 280px;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    .welcome-text {
+      color: #fff;
+      font-family: var(--body-font);
+      font-size: 1.1rem;
+      font-weight: 500;
+      line-height: 1.6;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    .btn-welcome-continue {
+      background: transparent;
+      border: 2px solid var(--gold-primary);
+      color: var(--gold-primary);
+      padding: 0.8rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: var(--brand-font);
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      animation: fadeIn 1.4s ease-out forwards;
+    }
+
+    .btn-welcome-continue:hover {
+      background: var(--gold-primary);
+      color: #000;
+      box-shadow: 0 0 20px rgba(212, 168, 83, 0.4);
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
 
     /* HARDWARE ACCELERATED BACKGROUND - ZERO LAG */
     .bg-image {
@@ -217,6 +312,10 @@
     
     .floating-wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--emerald-wa); color: #000; padding: 0.8rem 1.25rem; border-radius: 999px; font-weight: 800; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; z-index: 90; text-decoration: none; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); transition: transform 0.2s; }
     .floating-wa-btn:hover { transform: scale(1.05); }
+
+    .back-to-top { position: fixed; bottom: 20px; left: 20px; background: #161b26; border: 1.5px solid var(--gold-primary); color: var(--gold-light); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; z-index: 90; opacity: 0; pointer-events: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); text-decoration: none; }
+    .back-to-top.show { opacity: 1; pointer-events: auto; }
+    .back-to-top:hover { background: var(--gold-primary); color: #000; transform: translateY(-3px); }
     
     footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 3rem 0 2rem; background: #05070a; text-align: center; font-size: 0.85rem; color: var(--text-dim); }
 
@@ -237,10 +336,25 @@
       .pledge-card { padding: 2.5rem 1.5rem; margin: 0 1rem; }
       .pledge-card h2 { font-size: 1.8rem; }
       .admin-nav-tabs { justify-content: center; }
+
+      .back-to-top { bottom: 85px; left: 20px; width: 40px; height: 40px; font-size: 1rem; }
     }
   </style>
 </head>
-<body>
+<body class="no-scroll">
+
+  <!-- ============================================== -->
+  <!-- THE WELCOME POP-UP SCREEN                      -->
+  <!-- ============================================== -->
+  <div class="welcome-overlay" id="welcomePopup">
+    <img src="https://i.imgur.com/qLh3vUf.jpeg" alt="Origin Sparkrise Logo" class="welcome-logo">
+    <p class="welcome-text">
+      Welcome to Origin Sparkrise.<br><br>
+      One of the best tuition providing portals all over West Bengal.
+    </p>
+    <button class="btn-welcome-continue" onclick="dismissWelcome()">CONTINUE</button>
+  </div>
+  <!-- ============================================== -->
 
   <div class="bg-image"></div>
 
@@ -248,7 +362,7 @@
   <div class="live-ticker-wrap">
     <div class="ticker-left">
       <span class="live-pulse-dot"></span>
-      <span>ESTD 2024</span>
+      <span>ESTD 2023</span>
     </div>
     <div class="ticker-scroll">
       <div class="ticker-text" id="liveTickerText">
@@ -742,20 +856,34 @@
     </div>
   </div>
 
+  <!-- FLOATING BUTTONS (WhatsApp & Back to Top) -->
   <a href="https://wa.me/918584802445?text=Hello%20Oindri%20Samaddar%2C%20I%20would%20like%20to%20know%20more%20about%20ORIGIN%20SPARKRISE." target="_blank" class="floating-wa-btn">
     <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> <span>WhatsApp Oindri</span>
+  </a>
+
+  <a href="#" class="back-to-top" id="backToTopBtn" onclick="scrollToTop(event)">
+    <i class="fas fa-chevron-up"></i>
   </a>
 
   <footer>
     <div class="container">
       <div class="footer-bottom">
-        <div style="margin-bottom: 0.5rem; font-weight: 700;">&copy; 2024-2026 ORIGIN SPARKRISE &bull; Founder: Oindri Samaddar</div>
+        <div style="margin-bottom: 0.5rem; font-weight: 700;">&copy; 2023-2026 ORIGIN SPARKRISE &bull; Founder: Oindri Samaddar</div>
         <div>Motto: <em>Together We Grow</em></div>
       </div>
     </div>
   </footer>
 
   <script>
+    // ============================================
+    // WELCOME SCREEN DISMISSAL LOGIC
+    // ============================================
+    function dismissWelcome() {
+      const welcomePopup = document.getElementById('welcomePopup');
+      welcomePopup.classList.add('hidden');
+      document.body.classList.remove('no-scroll');
+    }
+
     const ADMIN_EMAIL = "osrtheoriginsparkrise@gmail.com"; 
     const OFFICIAL_PHONE = "918584802445";
 
@@ -788,6 +916,21 @@
     let debounceTimer = null;
     let tuitionsLoaded = 0;
     let reviewsLoaded = 0;
+
+    // BACK TO TOP LOGIC
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('backToTopBtn');
+      if (window.scrollY > 400) {
+        btn.classList.add('show');
+      } else {
+        btn.classList.remove('show');
+      }
+    });
+
+    function scrollToTop(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function debouncedSimPreview() {
       clearTimeout(debounceTimer);
