@@ -80,19 +80,88 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-    /* WELCOME POPUP SCREEN */
+    /* ========================================= */
+    /* UPGRADED PREMIUM YELLOW WELCOME SCREEN    */
+    /* ========================================= */
     .welcome-overlay {
-      position: fixed; inset: 0; background-color: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      position: fixed;
+      inset: 0;
+      /* Premium illuminated yellow/gold gradient background */
+      background: radial-gradient(circle at center, #fceabb 0%, #f8b500 40%, #b27a00 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
     .welcome-overlay.hidden { opacity: 0; visibility: hidden; }
 
-    .welcome-logo { max-width: 280px; margin-bottom: 2rem; animation: fadeIn 1s ease-out forwards; }
-    .welcome-heading { font-family: var(--brand-font); font-size: clamp(1.4rem, 4vw, 1.8rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; animation: fadeIn 1.2s ease-out forwards; }
-    .welcome-subtext { font-family: var(--body-font); font-size: 1.05rem; color: #cbd5e1; line-height: 1.6; max-width: 500px; margin-bottom: 2.5rem; animation: fadeIn 1.3s ease-out forwards; }
-    .welcome-subtext b { color: var(--gold-light); font-weight: 700; }
-    .btn-welcome-continue { background: transparent; border: 2px solid var(--gold-primary); color: var(--gold-primary); padding: 0.8rem 2.5rem; border-radius: 50px; font-size: 1rem; font-weight: 700; font-family: var(--brand-font); cursor: pointer; letter-spacing: 1px; transition: all 0.3s ease; animation: fadeIn 1.5s ease-out forwards; }
-    .btn-welcome-continue:hover { background: var(--gold-primary); color: #000; box-shadow: 0 0 20px rgba(212, 168, 83, 0.4); }
-    @keyframes fadeIn { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
+    .welcome-logo {
+      max-width: 280px;
+      margin-bottom: 2rem;
+      border-radius: 12px; /* Softens the black box edges */
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5); /* Elegant floating shadow */
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    .welcome-heading {
+      font-family: var(--brand-font);
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      font-weight: 800;
+      color: #080a0f; /* Deep dark contrast against yellow */
+      margin-bottom: 0.5rem;
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+    
+    .welcome-heading .gradient-gold {
+      color: #000; /* Make this pure black on the welcome screen */
+      text-shadow: none;
+    }
+
+    .welcome-subtext {
+      font-family: var(--body-font);
+      font-size: 1.05rem;
+      color: #1a1a1a;
+      line-height: 1.6;
+      max-width: 500px;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 1.3s ease-out forwards;
+    }
+    
+    .welcome-subtext b {
+      color: #000;
+      font-weight: 800;
+    }
+
+    .btn-welcome-continue {
+      background: #080a0f; /* Dark sleek button */
+      border: 2px solid #080a0f;
+      color: var(--gold-light);
+      padding: 0.8rem 2.5rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 800;
+      font-family: var(--brand-font);
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      animation: fadeIn 1.5s ease-out forwards;
+    }
+    .btn-welcome-continue:hover {
+      background: transparent;
+      color: #080a0f;
+      border-color: #080a0f;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    /* ========================================= */
 
     /* HARDWARE ACCELERATED BACKGROUND */
     .bg-image { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(8, 10, 15, 0.90), rgba(8, 10, 15, 0.98)), url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; transform: translateZ(0); will-change: transform; }
@@ -287,7 +356,7 @@
 <body class="no-scroll">
 
   <!-- ============================================== -->
-  <!-- UPGRADED WELCOME POP-UP SCREEN                 -->
+  <!-- UPGRADED PREMIUM YELLOW WELCOME POP-UP SCREEN  -->
   <!-- ============================================== -->
   <div class="welcome-overlay" id="welcomePopup">
     <img src="logo.jpg.jpeg" alt="Origin Sparkrise Logo" class="welcome-logo">
@@ -786,7 +855,7 @@
           </form>
         </div>
 
-        <!-- 4. UPGRADED: POST REVIEW FORM WITH FILE UPLOADER -->
+        <!-- 4. POST REVIEW FORM WITH FILE UPLOADER -->
         <div id="adminTabReviews" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Upload a Review or Chat</h4>
           <form onsubmit="handleUploadReview(event)">
@@ -859,7 +928,7 @@
     let isFirebaseReady = false;
     let database = null;
     let auth = null;
-    let storage = null; // Added Storage
+    let storage = null; // Storage for File Uploads
     let currentRole = 'parent';
     let debounceTimer = null;
     let tuitionsLoaded = 0;
@@ -1088,9 +1157,7 @@
       const tabs = ['history', 'upload', 'broadcast', 'reviews'];
       
       tabs.forEach(t => {
-        // Matches HTML IDs exactly: adminTabHistory, adminTabUpload, adminTabBroadcast, adminTabReviews
         const content = document.getElementById(`adminTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        // Matches HTML IDs exactly: tabHistoryBtn, tabUploadBtn, tabBroadcastBtn, tabReviewsBtn
         const btn = document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}Btn`);
         
         if (content) content.style.display = (t === tab) ? 'block' : 'none';
@@ -1182,7 +1249,7 @@
         .catch(err => alert('Failed: ' + err.message));
     }
 
-    // UPGRADED FILE UPLOADER FOR REVIEWS
+    // UPLOADER FOR REVIEWS (IMAGES & MP4)
     async function handleUploadReview(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
@@ -1202,7 +1269,6 @@
         const fileInput = document.getElementById('admRevFile');
         const file = fileInput.files[0];
 
-        // If you attached a real file, we upload it to Firebase Storage
         if (file) {
           const fileRef = storage.ref(`reviews/${Date.now()}_${file.name}`);
           const snapshot = await fileRef.put(file);
