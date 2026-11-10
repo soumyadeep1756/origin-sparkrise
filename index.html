@@ -119,13 +119,16 @@
       text-shadow: none;
     }
 
+    /* UPGRADED FONT FOR SUBTEXT */
     .welcome-subtext {
-      font-family: var(--body-font);
-      font-size: 1.05rem;
+      font-family: var(--brand-font);
+      font-size: 1.15rem;
       color: #1a1a1a;
       line-height: 1.6;
-      max-width: 500px;
+      max-width: 550px;
       margin-bottom: 2.5rem;
+      letter-spacing: 0.05em;
+      font-weight: 700;
       animation: fadeIn 1.3s ease-out forwards;
     }
     
@@ -848,7 +851,7 @@
           </form>
         </div>
 
-        <!-- UPLOAD REVIEWS FORM (WORKS FREE WITHOUT FIREBASE STORAGE VIA LINKS) -->
+        <!-- UPLOAD REVIEWS FORM (WORKS FREE WITHOUT FIREBASE STORAGE VIA LINKS/APPS SCRIPT) -->
         <div id="adminTabReviews" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Upload a Review or Chat</h4>
           <form onsubmit="handleUploadReview(event)">
@@ -860,7 +863,11 @@
             </select>
             <textarea id="admRevText" class="admin-input" placeholder="Type their review message or chat text here..." rows="4" required></textarea>
             
-            <label class="field-label" style="margin-top: 10px; margin-bottom: 5px;">Optional Media Link (Imgur or YouTube)</label>
+            <label class="field-label" style="margin-top: 10px; margin-bottom: 5px;">Upload Image via Google Drive script</label>
+            <input type="file" id="admRevFile" class="admin-input" accept="image/*,video/*" style="background:#070a12; color:#fff; padding: 0.5rem;" />
+
+            <div style="text-align:center; color:#888; font-size:0.8rem; margin:-5px 0 10px;">— OR —</div>
+
             <input type="text" id="admRevMedia" class="admin-input" placeholder="Paste YouTube Link or Imgur link here..." />
             
             <button type="submit" id="reviewSubmitBtn" class="admin-btn" style="background: var(--gold-light); color: #000;">
@@ -1246,13 +1253,13 @@
         .catch(err => alert('Failed: ' + err.message));
     }
 
-    // UPLOAD REVIEW (WITHOUT FIREBASE STORAGE)
+    // UPGRADED UPLOADER (SAVES DIRECTLY TO GOOGLE DRIVE VIA APPS SCRIPT)
     async function handleUploadReview(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
 
       const submitBtn = document.getElementById('reviewSubmitBtn');
-      submitBtn.innerText = "Uploading... Please wait";
+      submitBtn.innerText = "Uploading to Drive... Please wait";
       submitBtn.disabled = true;
 
       try {
@@ -1261,6 +1268,41 @@
 
         if (mediaUrl.includes('youtube.com') || mediaUrl.includes('youtu.be')) {
           mediaType = 'youtube';
+        }
+
+        const fileInput = document.getElementById('admRevFile');
+        const file = fileInput.files[0];
+
+        // If a file is attached, send it to Google Drive via Apps Script
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          
+          await new Promise((resolve, reject) => {
+            reader.onload = async () => {
+              const base64Data = reader.result.split(',')[1];
+              
+              // PASTE YOUR WEB APP URL BELOW
+              const scriptUrl = 'PASTE_YOUR_WEB_APP_URL_HERE';
+              
+              const formData = new URLSearchParams();
+              formData.append('fileName', file.name);
+              formData.append('mimeType', file.type);
+              formData.append('fileData', base64Data);
+
+              const response = await fetch(scriptUrl, { method: 'POST', body: formData });
+              const result = await response.json();
+              
+              if(result.success) {
+                mediaUrl = result.url;
+                mediaType = file.type.startsWith('video/') ? 'video' : 'image';
+                resolve();
+              } else {
+                reject(new Error("Drive upload failed."));
+              }
+            };
+            reader.onerror = error => reject(error);
+          });
         }
 
         const reviewData = {
