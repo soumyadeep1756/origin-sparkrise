@@ -56,6 +56,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script> <!-- ADDED STORAGE SDK -->
 
   <style>
     :root {
@@ -74,94 +75,27 @@
     }
 
     html { scroll-behavior: smooth; }
-    
-    /* Lock scrolling on the body while the welcome screen is active */
     body { background-color: var(--bg-dark); color: var(--text-main); font-family: var(--body-font); overflow-x: hidden; line-height: 1.5; margin: 0; padding: 0; }
     body.no-scroll { overflow: hidden; }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-    /* ========================================= */
-    /* UPGRADED WELCOME POPUP SCREEN             */
-    /* ========================================= */
+    /* WELCOME POPUP SCREEN */
     .welcome-overlay {
-      position: fixed;
-      inset: 0;
-      background-color: #000;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      text-align: center;
-      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      position: fixed; inset: 0; background-color: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
     }
     .welcome-overlay.hidden { opacity: 0; visibility: hidden; }
 
-    .welcome-logo {
-      max-width: 280px;
-      margin-bottom: 2rem;
-      animation: fadeIn 1s ease-out forwards;
-    }
+    .welcome-logo { max-width: 280px; margin-bottom: 2rem; animation: fadeIn 1s ease-out forwards; }
+    .welcome-heading { font-family: var(--brand-font); font-size: clamp(1.4rem, 4vw, 1.8rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; animation: fadeIn 1.2s ease-out forwards; }
+    .welcome-subtext { font-family: var(--body-font); font-size: 1.05rem; color: #cbd5e1; line-height: 1.6; max-width: 500px; margin-bottom: 2.5rem; animation: fadeIn 1.3s ease-out forwards; }
+    .welcome-subtext b { color: var(--gold-light); font-weight: 700; }
+    .btn-welcome-continue { background: transparent; border: 2px solid var(--gold-primary); color: var(--gold-primary); padding: 0.8rem 2.5rem; border-radius: 50px; font-size: 1rem; font-weight: 700; font-family: var(--brand-font); cursor: pointer; letter-spacing: 1px; transition: all 0.3s ease; animation: fadeIn 1.5s ease-out forwards; }
+    .btn-welcome-continue:hover { background: var(--gold-primary); color: #000; box-shadow: 0 0 20px rgba(212, 168, 83, 0.4); }
+    @keyframes fadeIn { 0% { opacity: 0; transform: translateY(15px); } 100% { opacity: 1; transform: translateY(0); } }
 
-    .welcome-heading {
-      font-family: var(--brand-font);
-      font-size: clamp(1.4rem, 4vw, 1.8rem);
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 0.5rem;
-      animation: fadeIn 1.2s ease-out forwards;
-    }
-
-    .welcome-subtext {
-      font-family: var(--body-font);
-      font-size: 1.05rem;
-      color: #cbd5e1;
-      line-height: 1.6;
-      max-width: 500px;
-      margin-bottom: 2.5rem;
-      animation: fadeIn 1.3s ease-out forwards;
-    }
-    
-    .welcome-subtext b {
-      color: var(--gold-light);
-      font-weight: 700;
-    }
-
-    .btn-welcome-continue {
-      background: transparent;
-      border: 2px solid var(--gold-primary);
-      color: var(--gold-primary);
-      padding: 0.8rem 2.5rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: var(--brand-font);
-      cursor: pointer;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      animation: fadeIn 1.5s ease-out forwards;
-    }
-    .btn-welcome-continue:hover {
-      background: var(--gold-primary);
-      color: #000;
-      box-shadow: 0 0 20px rgba(212, 168, 83, 0.4);
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(15px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* HARDWARE ACCELERATED BACKGROUND - ZERO LAG */
-    .bg-image {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: linear-gradient(to bottom, rgba(8, 10, 15, 0.90), rgba(8, 10, 15, 0.98)), 
-                  url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-      transform: translateZ(0);
-      will-change: transform;
-    }
+    /* HARDWARE ACCELERATED BACKGROUND */
+    .bg-image { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(8, 10, 15, 0.90), rgba(8, 10, 15, 0.98)), url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; transform: translateZ(0); will-change: transform; }
 
     .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1rem; position: relative; z-index: 1; }
     
@@ -291,8 +225,8 @@
     .review-stars { color: #fbbf24; font-size: 0.85rem; }
     .review-text { font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; font-style: italic; }
     .review-media { margin-top: 0.5rem; }
-    .review-media img, .review-media iframe { width: 100%; border-radius: 8px; border: 1px solid var(--border-subtle); object-fit: cover; }
-    .review-media img { max-height: 350px; }
+    .review-media img, .review-media video, .review-media iframe { width: 100%; border-radius: 8px; border: 1px solid var(--border-subtle); object-fit: cover; }
+    .review-media img, .review-media video { max-height: 350px; }
 
     /* Modals & Admin */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); z-index: 100; display: none; align-items: center; justify-content: center; padding: 1rem; }
@@ -309,6 +243,7 @@
     .admin-input:focus { border-color: var(--gold-primary); }
     .admin-btn { width: 100%; padding: 0.9rem; background: var(--gold-primary); color: #080a0f; border: none; border-radius: 7px; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: filter 0.2s; }
     .admin-btn:hover { filter: brightness(1.1); }
+    .admin-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
     .admin-nav-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; }
     .admin-nav-tab { background: transparent; border: 1px solid var(--border-subtle); color: var(--text-muted); padding: 0.5rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
@@ -795,15 +730,16 @@
         <div id="adminLoginErr" style="color: #ef4444; font-size: 0.9rem; font-weight: 700; margin-top: 1.25rem; display: none; text-align: center;"></div>
       </div>
 
+      <!-- UPGRADED DASHBOARD -->
       <div id="adminWorkspace" style="display: none;">
         <div class="admin-nav-tabs">
           <button class="admin-nav-tab active" id="tabHistoryBtn" onclick="switchAdminSubTab('history')">
             <i class="fas fa-history"></i> History
           </button>
-          <button class="admin-nav-tab" id="tabUploadTuitionBtn" onclick="switchAdminSubTab('upload')">
+          <button class="admin-nav-tab" id="tabUploadBtn" onclick="switchAdminSubTab('upload')">
             <i class="fas fa-plus-circle"></i> Tuitions
           </button>
-          <button class="admin-nav-tab" id="tabBroadcastFeedBtn" onclick="switchAdminSubTab('broadcast')">
+          <button class="admin-nav-tab" id="tabBroadcastBtn" onclick="switchAdminSubTab('broadcast')">
             <i class="fas fa-bullhorn"></i> Ticker
           </button>
           <button class="admin-nav-tab" id="tabReviewsBtn" onclick="switchAdminSubTab('reviews')">
@@ -811,6 +747,7 @@
           </button>
         </div>
 
+        <!-- 1. History Tab -->
         <div id="adminTabHistory">
           <h4 style="color: #fff; margin-bottom: 0.4rem; font-size: 1.2rem;">Registration History</h4>
           <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Live feed of all forms submitted by Parents and Tutors.</p>
@@ -822,7 +759,8 @@
           </div>
         </div>
 
-        <div id="adminTabUploadTuition" style="display: none;">
+        <!-- 2. Tuitions Tab -->
+        <div id="adminTabUpload" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Post New Tuition Requirement</h4>
           <form onsubmit="handleUploadTuitionRequirement(event)">
             <input type="text" id="admTClass" class="admin-input" placeholder="Class / Grade (e.g. Class 10, Spoken English)" required />
@@ -838,6 +776,7 @@
           </form>
         </div>
 
+        <!-- 3. Broadcast Tab -->
         <div id="adminTabBroadcast" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Broadcast Ticker Item</h4>
           <form onsubmit="handlePostCustomMatch(event)">
@@ -847,7 +786,7 @@
           </form>
         </div>
 
-        <!-- POST REVIEW FORM -->
+        <!-- 4. UPGRADED: POST REVIEW FORM WITH FILE UPLOADER -->
         <div id="adminTabReviews" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Upload a Review or Chat</h4>
           <form onsubmit="handleUploadReview(event)">
@@ -858,8 +797,15 @@
               <option value="Student">Student</option>
             </select>
             <textarea id="admRevText" class="admin-input" placeholder="Type their review message or chat text here..." rows="4" required></textarea>
-            <input type="text" id="admRevMedia" class="admin-input" placeholder="Media Link (Optional: Image URL for chat screenshot, or YouTube Link)" />
-            <button type="submit" class="admin-btn" style="background: var(--gold-light); color: #000;">
+            
+            <label class="field-label" style="margin-top: 10px; margin-bottom: 5px;">Upload Screenshot or Video</label>
+            <input type="file" id="admRevFile" class="admin-input" accept="image/*,video/*" style="background:#070a12; color:#fff; padding: 0.5rem;" />
+            
+            <div style="text-align:center; color:#888; font-size:0.8rem; margin:-5px 0 10px;">— OR —</div>
+            
+            <input type="text" id="admRevMedia" class="admin-input" placeholder="Paste YouTube Link here..." />
+            
+            <button type="submit" id="reviewSubmitBtn" class="admin-btn" style="background: var(--gold-light); color: #000;">
               <i class="fas fa-star"></i> Publish Review to Website
             </button>
           </form>
@@ -910,20 +856,10 @@
       measurementId: "G-6QQ43TB1C8"
     };
 
-    const backupTuitions = [
-      { classGrade: "Class 10", board: "CBSE", subjects: "Mathematics & Science", location: "Salt Lake Sector 1, Kolkata", days: "3 Days / Week", fees: "₹4,000 / month", notes: "Requires experienced tutor for board prep." },
-      { classGrade: "Spoken English", board: "Adult Learning", subjects: "Fluency & Grammar", location: "Online (Google Meet)", days: "2 Days / Week", fees: "₹2,500 / month", notes: "Working professional looking to improve communication." },
-      { classGrade: "Class 12", board: "WBCHSE", subjects: "Physics", location: "Kalyani, Nadia", days: "2 Days / Week", fees: "₹3,500 / month", notes: "Needs focus on numericals and competitive exams." }
-    ];
-
-    const backupReviews = [
-      { name: "Mrs. Sen", role: "Parent", text: "Origin Sparkrise found us a brilliant math tutor for my son within 24 hours. The Spoken English classes are also fantastic!", mediaUrl: "" },
-      { name: "Suman Banerjee", role: "Verified Educator", text: "Finally, a platform that respects teachers. No hidden cuts, completely transparent, and very supportive staff.", mediaUrl: "" }
-    ];
-
     let isFirebaseReady = false;
     let database = null;
     let auth = null;
+    let storage = null; // Added Storage
     let currentRole = 'parent';
     let debounceTimer = null;
     let tuitionsLoaded = 0;
@@ -1075,13 +1011,14 @@
 
       let mediaHtml = '';
       if(item.mediaUrl && item.mediaUrl.trim() !== '') {
-        const url = item.mediaUrl;
-        if(url.includes('youtube.com') || url.includes('youtu.be')) {
-           let embedUrl = url;
+        if (item.mediaType === 'youtube' || (!item.mediaType && (item.mediaUrl.includes('youtube.com') || item.mediaUrl.includes('youtu.be')))) {
+           let embedUrl = item.mediaUrl;
            if(embedUrl.includes('watch?v=')) embedUrl = embedUrl.replace('watch?v=', 'embed/');
            mediaHtml = `<div class="review-media"><iframe height="220" src="${embedUrl}" frameborder="0" allowfullscreen></iframe></div>`;
+        } else if (item.mediaType === 'video') {
+           mediaHtml = `<div class="review-media"><video src="${item.mediaUrl}" controls style="width:100%; border-radius:8px; border: 1px solid var(--border-subtle); max-height: 350px;"></video></div>`;
         } else {
-           mediaHtml = `<div class="review-media"><img src="${url}" alt="Review/Chat Snapshot" loading="lazy" /></div>`;
+           mediaHtml = `<div class="review-media"><img src="${item.mediaUrl}" alt="Review Snapshot" loading="lazy" /></div>`;
         }
       }
 
@@ -1146,18 +1083,17 @@
         });
     }
 
+    // PERFECTLY FIXED TAB SWITCHER LOGIC
     function switchAdminSubTab(tab) {
       const tabs = ['history', 'upload', 'broadcast', 'reviews'];
+      
       tabs.forEach(t => {
-        const el = document.getElementById(`adminTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        if (el) el.style.display = (t === tab) ? 'block' : 'none';
+        // Matches HTML IDs exactly: adminTabHistory, adminTabUpload, adminTabBroadcast, adminTabReviews
+        const content = document.getElementById(`adminTab${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        // Matches HTML IDs exactly: tabHistoryBtn, tabUploadBtn, tabBroadcastBtn, tabReviewsBtn
+        const btn = document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}Btn`);
         
-        let btnId = `tab${t.charAt(0).toUpperCase() + t.slice(1)}Btn`;
-        if (t === 'upload') btnId = 'tabUploadTuitionBtn';
-        if (t === 'broadcast') btnId = 'tabBroadcastFeedBtn';
-        if (t === 'reviews') btnId = 'tabReviewsBtn';
-
-        const btn = document.getElementById(btnId);
+        if (content) content.style.display = (t === tab) ? 'block' : 'none';
         if (btn) { (t === tab) ? btn.classList.add('active') : btn.classList.remove('active'); }
       });
       
@@ -1246,21 +1182,58 @@
         .catch(err => alert('Failed: ' + err.message));
     }
 
-    function handleUploadReview(e) {
+    // UPGRADED FILE UPLOADER FOR REVIEWS
+    async function handleUploadReview(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
 
-      const reviewData = {
-        name: document.getElementById('admRevName').value.trim(),
-        role: document.getElementById('admRevRole').value.trim(),
-        text: document.getElementById('admRevText').value.trim(),
-        mediaUrl: document.getElementById('admRevMedia').value.trim(),
-        timestamp: new Date().toISOString()
-      };
+      const submitBtn = document.getElementById('reviewSubmitBtn');
+      submitBtn.innerText = "Uploading... Please wait";
+      submitBtn.disabled = true;
 
-      database.ref('reviews').push(reviewData)
-        .then(() => { alert('Review published to website!'); closeAdminModal(); e.target.reset(); })
-        .catch(err => alert('Upload failed: ' + err.message));
+      try {
+        let mediaUrl = document.getElementById('admRevMedia').value.trim();
+        let mediaType = 'image';
+
+        if (mediaUrl.includes('youtube.com') || mediaUrl.includes('youtu.be')) {
+          mediaType = 'youtube';
+        }
+
+        const fileInput = document.getElementById('admRevFile');
+        const file = fileInput.files[0];
+
+        // If you attached a real file, we upload it to Firebase Storage
+        if (file) {
+          const fileRef = storage.ref(`reviews/${Date.now()}_${file.name}`);
+          const snapshot = await fileRef.put(file);
+          mediaUrl = await snapshot.ref.getDownloadURL();
+          
+          if (file.type.startsWith('video/')) {
+            mediaType = 'video';
+          } else {
+            mediaType = 'image';
+          }
+        }
+
+        const reviewData = {
+          name: document.getElementById('admRevName').value.trim(),
+          role: document.getElementById('admRevRole').value.trim(),
+          text: document.getElementById('admRevText').value.trim(),
+          mediaUrl: mediaUrl,
+          mediaType: mediaType,
+          timestamp: new Date().toISOString()
+        };
+
+        await database.ref('reviews').push(reviewData);
+        alert('Review published to website!');
+        closeAdminModal();
+        e.target.reset();
+      } catch (err) {
+        alert('Upload failed: ' + err.message);
+      } finally {
+        submitBtn.innerHTML = '<i class="fas fa-star"></i> Publish Review to Website';
+        submitBtn.disabled = false;
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -1271,6 +1244,7 @@
           firebase.initializeApp(firebaseConfig);
           database = firebase.database();
           auth = firebase.auth();
+          storage = firebase.storage(); // Initialize Storage for File Uploads
           isFirebaseReady = true;
 
           auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
@@ -1292,12 +1266,6 @@
             }
           });
 
-          // Fetch Tuitions
-          database.ref('available_tuitions').once('value', (snap) => {
-            if (!snap.exists()) {
-              backupTuitions.forEach(t => appendTuitionCard(t));
-            }
-          });
           database.ref('available_tuitions').limitToLast(12).on('child_added', (snap) => {
             tuitionsLoaded++;
             if (tuitionsLoaded === 1) {
@@ -1308,18 +1276,11 @@
             if (val && val.classGrade) appendTuitionCard(val);
           });
 
-          // Fetch Broadcasts
           database.ref('live_broadcasts').limitToLast(4).on('child_added', (snap) => {
             const val = snap.val();
             if (val && val.title) appendLocalFeedItem(val.title, val.details || '');
           });
 
-          // Fetch Reviews
-          database.ref('reviews').once('value', (snap) => {
-            if (!snap.exists()) {
-              backupReviews.forEach(r => appendReviewCard(r));
-            }
-          });
           database.ref('reviews').limitToLast(10).on('child_added', (snap) => {
             reviewsLoaded++;
             if (reviewsLoaded === 1) {
@@ -1332,8 +1293,6 @@
         }
       } catch (err) {
         console.warn('Backend initialized in fallback mode:', err);
-        backupTuitions.forEach(t => appendTuitionCard(t));
-        backupReviews.forEach(r => appendReviewCard(r));
       }
     });
   </script>
