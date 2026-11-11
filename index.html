@@ -413,7 +413,6 @@
         <a href="https://wa.me/918584802445?text=Hello%20Oindri%20Samaddar%2C%20I%20have%20an%20inquiry%20regarding%20Origin%20Sparkrise." target="_blank" class="btn-wa-header">
           <i class="fab fa-whatsapp" style="font-size:1.1rem;"></i> <span>+91 85848 02445</span>
         </a>
-        <!-- BUTTON OPENS DASHBOARD INSTEAD OF LOGGING OUT -->
         <button id="navLoginBtn" onclick="toggleAdminNavAction()" class="btn-login-nav">
           <i class="fas fa-user-lock"></i> <span id="navLoginText">Admin Login</span>
         </button>
@@ -671,7 +670,7 @@
             </button>
           </form>
 
-          <!-- Teacher Form -->
+          <!-- Teacher Form (BUG FIXED) -->
           <form id="formTeacher" style="display: none;" onsubmit="submitTeacherApplication(event)">
             <div class="form-grid">
               <div class="form-group">
@@ -813,7 +812,6 @@
           <button class="admin-nav-tab" id="tabReviewsBtn" onclick="switchAdminSubTab('reviews')">
             <i class="fas fa-star"></i> Post Review
           </button>
-          <!-- NEW DEDICATED LOGOUT BUTTON -->
           <button class="admin-nav-tab" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3);" onclick="adminLogout()">
             <i class="fas fa-sign-out-alt"></i> Logout
           </button>
@@ -962,6 +960,7 @@
       debounceTimer = setTimeout(updateSimPreview, 100);
     }
 
+    // TEACHER TAB BUG FIXED!
     function switchRole(role) {
       currentRole = role;
       const tabP = document.getElementById('tabParent');
@@ -976,7 +975,7 @@
         formP.style.display = 'block'; formT.style.display = 'none';
       } else {
         tabT.classList.add('active'); tabP.classList.remove('active');
-        formT.style.display = 'block'; formT.style.display = 'none';
+        formT.style.display = 'block'; formP.style.display = 'none';
       }
       updateSimPreview();
     }
@@ -1130,16 +1129,13 @@
       feed.insertBefore(item, feed.firstChild);
     }
 
-    // DASHBOARD BUTTON LOGIC UPGRADE
     function openAdminModal() { document.getElementById('adminModal').classList.add('active'); }
     function closeAdminModal() { document.getElementById('adminModal').classList.remove('active'); }
 
-    // Toggle button now just opens the modal instead of logging out
     function toggleAdminNavAction() {
       openAdminModal();
     }
 
-    // Dedicated logout function for the red logout button
     function adminLogout() {
       if (auth && auth.currentUser) {
         auth.signOut().then(() => {
@@ -1232,7 +1228,6 @@
       });
     }
 
-    // DASHBOARD FORMS NOW REMAIN OPEN AFTER SUBMISSION
     function handleUploadTuitionRequirement(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
@@ -1251,7 +1246,7 @@
       database.ref('available_tuitions').push(tuitionData)
         .then(() => { 
           alert('Tuition published to website board!'); 
-          e.target.reset(); // Clears form but leaves window open!
+          e.target.reset(); 
         })
         .catch(err => alert('Upload failed: ' + err.message));
     }
@@ -1271,6 +1266,7 @@
         .catch(err => alert('Failed: ' + err.message));
     }
 
+    // SECURITY SECRET CODE ADDED DIRECTLY TO SCRIPT UPLOADER
     async function handleUploadReview(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
@@ -1304,6 +1300,8 @@
               formData.append('fileName', file.name);
               formData.append('mimeType', file.type);
               formData.append('fileData', base64Data);
+              // PRE-INSTALLED SECURITY PASSCODE
+              formData.append('secretPass', 'OindriSparkrise2026!');
 
               const response = await fetch(scriptUrl, { method: 'POST', body: formData });
               const result = await response.json();
@@ -1331,7 +1329,7 @@
 
         await database.ref('reviews').push(reviewData);
         alert('Review published to website!');
-        e.target.reset(); // Clears form but leaves window open!
+        e.target.reset(); 
       } catch (err) {
         alert('Upload failed: ' + err.message);
       } finally {
@@ -1358,7 +1356,7 @@
             const workspace = document.getElementById('adminWorkspace');
 
             if (user && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-              if (btnText) btnText.innerText = 'Dashboard'; // Keeps button saying Dashboard
+              if (btnText) btnText.innerText = 'Dashboard'; 
               if (loginForm) loginForm.style.display = 'none';
               if (workspace) workspace.style.display = 'block';
               loadRegistrationHistory();
