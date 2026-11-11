@@ -413,8 +413,9 @@
         <a href="https://wa.me/918584802445?text=Hello%20Oindri%20Samaddar%2C%20I%20have%20an%20inquiry%20regarding%20Origin%20Sparkrise." target="_blank" class="btn-wa-header">
           <i class="fab fa-whatsapp" style="font-size:1.1rem;"></i> <span>+91 85848 02445</span>
         </a>
+        <!-- BUTTON OPENS DASHBOARD INSTEAD OF LOGGING OUT -->
         <button id="navLoginBtn" onclick="toggleAdminNavAction()" class="btn-login-nav">
-          <i class="fas fa-user-lock"></i> <span id="navLoginText">Login</span>
+          <i class="fas fa-user-lock"></i> <span id="navLoginText">Admin Login</span>
         </button>
       </div>
     </div>
@@ -812,6 +813,10 @@
           <button class="admin-nav-tab" id="tabReviewsBtn" onclick="switchAdminSubTab('reviews')">
             <i class="fas fa-star"></i> Post Review
           </button>
+          <!-- NEW DEDICATED LOGOUT BUTTON -->
+          <button class="admin-nav-tab" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3);" onclick="adminLogout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
         </div>
 
         <div id="adminTabHistory">
@@ -850,7 +855,6 @@
           </form>
         </div>
 
-        <!-- FULLY WIRED GOOGLE DRIVE UPLOADER -->
         <div id="adminTabReviews" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Upload a Review or Chat</h4>
           <form onsubmit="handleUploadReview(event)">
@@ -1126,14 +1130,22 @@
       feed.insertBefore(item, feed.firstChild);
     }
 
+    // DASHBOARD BUTTON LOGIC UPGRADE
     function openAdminModal() { document.getElementById('adminModal').classList.add('active'); }
     function closeAdminModal() { document.getElementById('adminModal').classList.remove('active'); }
 
+    // Toggle button now just opens the modal instead of logging out
     function toggleAdminNavAction() {
+      openAdminModal();
+    }
+
+    // Dedicated logout function for the red logout button
+    function adminLogout() {
       if (auth && auth.currentUser) {
-        auth.signOut().then(() => alert('Logged out from Google Session.'));
-      } else {
-        openAdminModal();
+        auth.signOut().then(() => {
+          alert('Logged out securely.');
+          closeAdminModal();
+        });
       }
     }
 
@@ -1220,6 +1232,7 @@
       });
     }
 
+    // DASHBOARD FORMS NOW REMAIN OPEN AFTER SUBMISSION
     function handleUploadTuitionRequirement(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
@@ -1236,7 +1249,10 @@
       };
 
       database.ref('available_tuitions').push(tuitionData)
-        .then(() => { alert('Tuition published to website board!'); closeAdminModal(); e.target.reset(); })
+        .then(() => { 
+          alert('Tuition published to website board!'); 
+          e.target.reset(); // Clears form but leaves window open!
+        })
         .catch(err => alert('Upload failed: ' + err.message));
     }
 
@@ -1248,11 +1264,13 @@
       const details = document.getElementById('admMatchDetails').value.trim();
 
       database.ref('live_broadcasts').push({ title, details, timestamp: new Date().toISOString() })
-        .then(() => { alert('Broadcast published to live ticker!'); closeAdminModal(); e.target.reset(); })
+        .then(() => { 
+          alert('Broadcast published to live ticker!'); 
+          e.target.reset(); 
+        })
         .catch(err => alert('Failed: ' + err.message));
     }
 
-    // FULLY INTEGRATED GOOGLE DRIVE SCRIPT UPLOADER
     async function handleUploadReview(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
@@ -1272,7 +1290,6 @@
         const fileInput = document.getElementById('admRevFile');
         const file = fileInput.files[0];
 
-        // Process actual file to Google Drive
         if (file) {
           const reader = new FileReader();
           reader.readAsDataURL(file);
@@ -1281,7 +1298,6 @@
             reader.onload = async () => {
               const base64Data = reader.result.split(',')[1];
               
-              // YOUR LIVE GOOGLE APPS SCRIPT URL IS INSERTED BELOW
               const scriptUrl = 'https://script.google.com/macros/s/AKfycbxwcPcmjasBILV9sjJn72Pc_oQGeEznZrRL17A52stcPKc8uiNB0rESJLI_GMGWn3xuLg/exec';
               
               const formData = new URLSearchParams();
@@ -1315,8 +1331,7 @@
 
         await database.ref('reviews').push(reviewData);
         alert('Review published to website!');
-        closeAdminModal();
-        e.target.reset();
+        e.target.reset(); // Clears form but leaves window open!
       } catch (err) {
         alert('Upload failed: ' + err.message);
       } finally {
@@ -1343,12 +1358,12 @@
             const workspace = document.getElementById('adminWorkspace');
 
             if (user && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
-              if (btnText) btnText.innerText = 'Logout';
+              if (btnText) btnText.innerText = 'Dashboard'; // Keeps button saying Dashboard
               if (loginForm) loginForm.style.display = 'none';
               if (workspace) workspace.style.display = 'block';
               loadRegistrationHistory();
             } else {
-              if (btnText) btnText.innerText = 'Login';
+              if (btnText) btnText.innerText = 'Admin Login';
               if (loginForm) loginForm.style.display = 'block';
               if (workspace) workspace.style.display = 'none';
             }
