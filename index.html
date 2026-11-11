@@ -80,7 +80,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     /* ========================================= */
-    /* UPGRADED PREMIUM YELLOW WELCOME SCREEN    */
+    /* PREMIUM YELLOW WELCOME SCREEN             */
     /* ========================================= */
     .welcome-overlay {
       position: fixed;
@@ -119,7 +119,6 @@
       text-shadow: none;
     }
 
-    /* UPGRADED FONT FOR SUBTEXT */
     .welcome-subtext {
       font-family: var(--brand-font);
       font-size: 1.15rem;
@@ -356,7 +355,7 @@
 <body class="no-scroll">
 
   <!-- ============================================== -->
-  <!-- UPGRADED PREMIUM YELLOW WELCOME POP-UP SCREEN  -->
+  <!-- PREMIUM YELLOW WELCOME POP-UP SCREEN           -->
   <!-- ============================================== -->
   <div class="welcome-overlay" id="welcomePopup">
     <img src="logo.jpg.jpeg" alt="Origin Sparkrise Logo" class="welcome-logo">
@@ -851,7 +850,7 @@
           </form>
         </div>
 
-        <!-- UPLOAD REVIEWS FORM (WORKS FREE WITHOUT FIREBASE STORAGE VIA LINKS/APPS SCRIPT) -->
+        <!-- FULLY WIRED GOOGLE DRIVE UPLOADER -->
         <div id="adminTabReviews" style="display: none;">
           <h4 style="color: #fff; margin-bottom: 1rem; font-size: 1.2rem;">Upload a Review or Chat</h4>
           <form onsubmit="handleUploadReview(event)">
@@ -863,7 +862,7 @@
             </select>
             <textarea id="admRevText" class="admin-input" placeholder="Type their review message or chat text here..." rows="4" required></textarea>
             
-            <label class="field-label" style="margin-top: 10px; margin-bottom: 5px;">Upload Image via Google Drive script</label>
+            <label class="field-label" style="margin-top: 10px; margin-bottom: 5px;">Upload Image via Google Drive</label>
             <input type="file" id="admRevFile" class="admin-input" accept="image/*,video/*" style="background:#070a12; color:#fff; padding: 0.5rem;" />
 
             <div style="text-align:center; color:#888; font-size:0.8rem; margin:-5px 0 10px;">— OR —</div>
@@ -1253,7 +1252,7 @@
         .catch(err => alert('Failed: ' + err.message));
     }
 
-    // UPGRADED UPLOADER (SAVES DIRECTLY TO GOOGLE DRIVE VIA APPS SCRIPT)
+    // FULLY INTEGRATED GOOGLE DRIVE SCRIPT UPLOADER
     async function handleUploadReview(e) {
       e.preventDefault();
       if (!auth || !auth.currentUser) return alert('Please log in.');
@@ -1273,7 +1272,7 @@
         const fileInput = document.getElementById('admRevFile');
         const file = fileInput.files[0];
 
-        // If a file is attached, send it to Google Drive via Apps Script
+        // Process actual file to Google Drive
         if (file) {
           const reader = new FileReader();
           reader.readAsDataURL(file);
@@ -1282,8 +1281,8 @@
             reader.onload = async () => {
               const base64Data = reader.result.split(',')[1];
               
-              // PASTE YOUR WEB APP URL BELOW
-              const scriptUrl = 'PASTE_YOUR_WEB_APP_URL_HERE';
+              // YOUR LIVE GOOGLE APPS SCRIPT URL IS INSERTED BELOW
+              const scriptUrl = 'https://script.google.com/macros/s/AKfycbxwcPcmjasBILV9sjJn72Pc_oQGeEznZrRL17A52stcPKc8uiNB0rESJLI_GMGWn3xuLg/exec';
               
               const formData = new URLSearchParams();
               formData.append('fileName', file.name);
